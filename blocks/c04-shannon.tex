@@ -1,0 +1,39 @@
+\begin{commandment}[slot]{IV}{Shannon}{Thou shalt not sample below twice the bandwidth.}{ADCs, anti-aliasing filters, compression, error-correcting codes, adaptive QAM in Wi-Fi and 5G.}
+\body{%
+  \begin{eqgroup}[Sampling \& quantisation]
+  \[ f_s>2B \qquad \sigma_q^2=\frac{\Delta^2}{12}\ \ \text{\small\color{muted}(6 dB per bit)} \]
+  \end{eqgroup}
+  \begin{eqgroup}[Capacity \& information]
+  \[ C=B\log_2\!\Big(1+\frac{S}{N}\Big)\ \ \text{bit/s} \]
+  \[ H=-\sum_i p_i\log_2 p_i \]
+  \end{eqgroup}}%
+{%
+  \begin{tikzpicture}[x=48mm, y=80mm, line width=1.2pt, >={Latex[length=3mm]}]
+    % Nyquist zones (x in units of f_s, y in units of f_s)
+    \foreach \z/\l in {0/1,1/2,2/3,3/4} {
+      \pgfmathsetmacro{\xa}{\z*0.5}
+      \ifodd\z \fill[accent!7] (\xa,0) rectangle ({\xa+0.5},0.5); \fi
+    }
+    % axes
+    \draw[->, muted] (0,0) -- (2.12,0) node[right, text=ink]{$f_{in}$};
+    \draw[->, muted] (0,0) -- (0,0.66) node[above, text=ink]{$f_{out}$};
+    \foreach \x/\t in {0.5/{\tfrac{f_s}{2}},1/{f_s},1.5/{\tfrac{3f_s}{2}},2/{2f_s}}
+      \draw[muted] (\x,0) -- (\x,-0.02) node[below, font=\small, text=ink]{$\t$};
+    \node[left, font=\small] at (0,0.5) {$\tfrac{f_s}{2}$};
+    % ping-pong
+    \draw[accent, line width=2.4pt] (0,0) -- (0.5,0.5) -- (1,0) -- (1.5,0.5) -- (2,0);
+    % example tone in zone 3 folds down
+    \draw[trap, dashed] (1.3,0) -- (1.3,0.3);
+    \draw[trap, dashed] (0.3,0.3) -- (0,0.3);
+    \draw[trap, line width=1.6pt, -{Latex[length=4mm, width=3mm]}, shorten <=2.2mm, shorten >=2.2mm] (1.3,0.3) -- (0.3,0.3);
+    \fill[trap] (1.3,0.3) circle (1.6mm);
+    \fill[trap] (0.3,0.3) circle (1.6mm);
+    \draw[trap, thin] (0.3,0) -- (0.3,0.3);
+    \node[trap, font=\small, below] at (1.3,-0.075) {tone};
+    \node[font=\small, muted, anchor=north] at (0.75,0.13) {flipped};
+    \node[font=\small, muted, anchor=north] at (1.75,0.13) {flipped};
+  \end{tikzpicture}\\[1mm]
+  {\small\color{muted}Every frequency ping-pongs between $0$ and $f_s/2$; even zones arrive mirrored. Used on purpose, it is bandpass sampling.}}
+\tcblower
+\trap{\textbf{Aliasing is forever.} What the sampler hath joined together, let no filter put asunder: filter \emph{before} you sample.}
+\end{commandment}

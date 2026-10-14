@@ -1,0 +1,27 @@
+\begin{commandment}[slot]{VIII}{Probability \& noise}{Thou shalt not trust (a single measurement).}{Uncertainty budgets, bit error rate, receiver sensitivity, Friis noise figure, Kalman filtering.}
+\body{%
+  \begin{eqgroup}[Measurement (Student's $t$)]
+  \[ \mu\in\bar x\pm t_{\alpha/2,\,n-1}\,\frac{s}{\sqrt n} \]
+  \end{eqgroup}
+  \begin{eqgroup}[Noise]
+  \[ P_n=kTB \quad (-174\ \text{dBm/Hz}) \]
+  \[ S_{yy}(f)=|H(f)|^2\,S_{xx}(f) \]
+  \end{eqgroup}}%
+{%
+  \begin{tikzpicture}
+  \begin{axis}[posterplot, xmin=-4.2, xmax=4.4, ymin=0, ymax=0.47, xlabel={$x$}, ytick=\empty,
+      xtick={-3,-2,-1,1,2,3}, xticklabels={$-3\sigma$,$-2\sigma$,$-\sigma$,$\sigma$,$2\sigma$,$3\sigma$},
+      samples=120, domain=-4:4]
+    \addplot[draw=none, fill=accent, fill opacity=0.10, domain=-3:3] {exp(-x^2/2)/sqrt(2*pi)} \closedcycle;
+    \addplot[draw=none, fill=accent, fill opacity=0.12, domain=-2:2] {exp(-x^2/2)/sqrt(2*pi)} \closedcycle;
+    \addplot[draw=none, fill=accent, fill opacity=0.16, domain=-1:1] {exp(-x^2/2)/sqrt(2*pi)} \closedcycle;
+    \addplot[accent, smooth] {exp(-x^2/2)/sqrt(2*pi)};
+    \addplot[trap, dashed, smooth] {0.3676*(1+x^2/3)^(-2)};
+    \node[font=\small] at (axis cs:0,0.09) {$68\%$};
+    \node[font=\small] at (axis cs:1.5,0.035) {$95\%$};
+    \node[trap, font=\small, align=left] at (axis cs:2.9,0.17) {Student's $t$\\(fatter tails)};
+  \end{axis}
+  \end{tikzpicture}}
+\tcblower
+\trap{\textbf{Averaging cures only random error.} The systematic error ye have always with you.}
+\end{commandment}

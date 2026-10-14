@@ -1,0 +1,22 @@
+\begin{commandment}[slot]{VII}{Power triangle}{Thou shalt pay for $S$.}{Three-phase, power-factor correction, grid control ($Q$ moves voltage, $P$ moves frequency), inverters.}
+\body[0.40]{%
+  \begin{eqgroup}[Complex power]
+  \[ S=VI^{*}=P+jQ \]
+  \[ \mathrm{PF}=\frac{P}{|S|}=\cos\varphi \]
+  \end{eqgroup}
+  \begin{eqgroup}[Three-phase]
+  \[ P=\sqrt3\,V_{LL}I_L\cos\varphi \]
+  \end{eqgroup}}%
+{%
+  \begin{tikzpicture}[x=13mm, y=11mm, line width=1.8pt]
+    \coordinate (O) at (0,0); \coordinate (P) at (6,0); \coordinate (S) at (6,3.4);
+    \fill[accent!6] (O) -- (P) -- (S) -- cycle;
+    \draw[good] (O) -- (P) node[midway, below=2mm, align=center]{$P$\ \ [W]\\[-1mm]{\small real: does work}};
+    \draw[trap] (P) -- (S) node[midway, right=1mm, align=left]{$Q$\ \ [var]\\[-1mm]{\small reactive:}\\[-1mm]{\small sloshes back}};
+    \draw[accent] (O) -- (S) node[midway, above left=1mm, align=center]{$S$\ \ [VA]\\[-1mm]{\small what cables carry}};
+    \draw[thin] (5.65,0) -- (5.65,0.35) -- (6,0.35);
+    \draw[thin] (1.4,0) arc (0:29.5:1.4) node[midway, right]{$\varphi$};
+  \end{tikzpicture}}
+\tcblower
+\trap{\textbf{Render unto the cable its $|S|$:} $Q$ does no work, yet it heats the copper. With harmonics, $\cos\varphi$ is not the power factor.}
+\end{commandment}

@@ -1,0 +1,47 @@
+% ==========================================================================
+%  The Ten Commandments of Electrical Engineering  --  16:9 landscape (monitor)
+%  Same blocks/ as the A1 poster (ee-ten-commandments.tex); only the layout differs.
+%  Compile: just poster ee-ten-commandments-16x9
+% ==========================================================================
+\RequirePackage{fix-cm}
+\documentclass{article}
+\usepackage[paperwidth=1067mm,paperheight=600mm,left=13mm,right=13mm,top=8mm,bottom=10mm]{geometry}
+\input{preamble}
+
+% a column that fills the page height (less \topskip, which TeX puts above the first line);
+% \vfill between blocks spreads them out
+\newenvironment{pagecol}[1]{\begin{minipage}[t][\dimexpr\textheight-\topskip\relax][s]{#1}\vspace{0pt}}{\end{minipage}}
+\newcommand{\pair}[3]{% #1 equal-height group, #2 left block, #3 right block
+  \begin{minipage}[t]{0.488\linewidth}\block[equal height group=#1]{#2}\end{minipage}\hfill
+  \begin{minipage}[t]{0.488\linewidth}\block[equal height group=#1]{#3}\end{minipage}\par}
+
+\begin{document}
+\noindent
+% ===================================================================== LEFT: title, I--IV
+\begin{pagecol}{0.34\linewidth}
+\input{blocks/gutter}%
+\input{blocks/title}\par
+\vspace{2mm}
+{\color{accent}\rule{\linewidth}{2.5pt}}
+\vfill
+\block{c01-circuit-laws}
+\vfill
+\block{c02-phasors}
+\vfill
+\block{c03-convolution}
+\vfill
+\block{c04-shannon}
+\end{pagecol}\hfill
+% ===================================================================== RIGHT: motto, chapter i, V--X
+\begin{pagecol}{0.648\linewidth}
+{\raggedleft\input{blocks/motto}\par}
+\vfill
+\input{blocks/chapter-i}
+\vfill
+\pair{row1}{c05-state-space}{c06-maxwell}
+\vfill
+\pair{row2}{c07-power}{c08-noise}
+\vfill
+\pair{row3}{c09-semiconductors}{c10-logic}
+\end{pagecol}
+\end{document}

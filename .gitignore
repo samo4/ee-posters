@@ -1,0 +1,5 @@
+# Build output: `just` regenerates the PDFs (and the tag workflow attaches them to releases),
+# so they are never committed.
+build/
+*.pdf
+preview.png

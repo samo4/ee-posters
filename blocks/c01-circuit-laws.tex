@@ -1,0 +1,47 @@
+\begin{commandment}[slot]{I}{Circuit laws}{Thou shalt conserve charge and energy.}{Nodal analysis $G\mathbf v=\mathbf i$ (what SPICE solves), mesh, superposition, dividers, loading.}
+\body{%
+  \begin{eqgroup}[Kirchhoff \& Ohm]
+  \[ \textstyle\sum_{\text{node}} i=0 \qquad \sum_{\text{loop}} v=0 \qquad V=ZI \]
+  \end{eqgroup}
+  \begin{eqgroup}[Thévenin--Norton]
+  \[ V_{Th}=V_{oc} \qquad Z_{Th}=\frac{V_{oc}}{I_{sc}} \]
+  \[ \text{max power: } Z_L=Z_{Th}^{*} \]
+  \end{eqgroup}}%
+{%
+  \begin{tikzpicture}[line width=1.2pt, x=12mm, y=8.6mm]
+    % ground rail and top wires
+    \draw (0,0) -- (4.4,0);
+    \draw (0,0) -- (0,2) -- (1.7,2);
+    \draw (3.3,2) -- (4.4,2) -- (4.4,0);
+    % current source
+    \draw[fill=white] (0,1) circle (4.4mm);
+    \draw[-{Latex[length=2.4mm]}] (0,0.72) -- (0,1.28);
+    \node[left=4.5mm] at (0,1) {$I_s$};
+    % capacitor at node 1
+    \draw (1.45,2) -- (1.45,1.12); \draw (1.45,0.88) -- (1.45,0);
+    \draw[line width=2pt] (1.17,1.12) -- (1.73,1.12); \draw[line width=2pt] (1.17,0.88) -- (1.73,0.88);
+    \node[right=3.5mm] at (1.45,1) {$C$};
+    % inductor between node 1 and node 2 (highlighted)
+        \foreach \i in {0,1,2,3} \draw[trap, line width=1.8pt] ({1.7+\i*0.4},2) arc (180:0:0.2);
+    \node[trap, above=3mm] at (2.5,2) {$L$};
+    \draw[-{Latex[length=2.2mm]}, trap, thin] (2.0,1.6) -- (3.0,1.6) node[midway, below, font=\small]{$i_L$};
+    % resistor at node 2
+    \node[draw, fill=white, minimum width=4.4mm, minimum height=8mm, inner sep=0pt] at (4.4,1) {};
+    \node[right=2.5mm] at (4.4,1) {$R$};
+    % nodes
+    \fill (1.45,2) circle (1.4mm); \fill (3.3,2) circle (1.4mm);
+    \node[font=\small\bfseries, text=accent, above=1.2mm] at (1.45,2) {1};
+    \node[font=\small\bfseries, text=accent, above=1.2mm] at (3.3,2) {2};
+    \node[font=\small, text=accent, anchor=east] at (1.12,1.0) {$v_C$};
+    % ground
+    \draw (2.2,0) -- (2.2,-0.25);
+    \draw (1.95,-0.25) -- (2.45,-0.25); \draw (2.03,-0.35) -- (2.37,-0.35); \draw (2.11,-0.45) -- (2.29,-0.45);
+  \end{tikzpicture}\\[1mm]
+  {\fontsize{15}{18}\selectfont\arraycolsep=4pt
+  $\displaystyle Y(s)=\begin{bmatrix} sC+\textcolor{trap}{\dfrac{1}{sL}} & \textcolor{trap}{-\dfrac{1}{sL}}\\[8pt] \textcolor{trap}{-\dfrac{1}{sL}} & \textcolor{trap}{\dfrac{1}{sL}}+\dfrac1R \end{bmatrix}$
+  \hfill
+  $\displaystyle A=\begin{bmatrix} 0 & -\dfrac1C\\[8pt] \dfrac1L & -\dfrac RL \end{bmatrix}$}\\[2mm]
+  {\small\color{muted}$\det Y(s)=0$ and $\operatorname{eig}(A)$: the same poles.}}
+\tcblower
+\trap{\textbf{Leave no node floating.} Ask, and SPICE shall answer; but a node with no path to ground maketh the matrix singular.}
+\end{commandment}

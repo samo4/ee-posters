@@ -1,0 +1,33 @@
+\begin{commandment}[slot]{V}{State-space}{Thou shalt know thy state, and feed it.}{PID, pole placement, LQR, MPC, observers, Kalman filter, converter control loops.}
+\body[0.42]{%
+  \begin{eqgroup}[The system]
+  \[ \left\{\begin{aligned} \dot{\mathbf x}&=A\mathbf x+B\mathbf u\\ \mathbf y&=C\mathbf x+D\mathbf u \end{aligned}\right. \]
+  \end{eqgroup}
+  \begin{eqgroup}[Feedback moves the poles]
+  \[ \mathbf u=-K\mathbf x \ \Rightarrow\ \dot{\mathbf x}=(A-BK)\,\mathbf x \]
+  \[ \text{stable} \iff \mathrm{Re}\,\lambda_i<0 \]
+  \end{eqgroup}}%
+{%
+  \begin{tikzpicture}[>={Latex[length=3mm]}, line width=1.1pt, node distance=13mm,
+     blk/.style={draw, accent, fill=accent!7, minimum width=13mm, minimum height=11mm, font=\normalsize, text=ink},
+     sum/.style={draw, circle, minimum size=7mm, inner sep=0pt, font=\small}]
+    \node (u) {$\mathbf u$};
+    \node[blk, right=10mm of u] (B) {$B$};
+    \node[sum, right=10mm of B] (s1) {$+$};
+    \node[blk, right=10mm of s1] (I) {$\int$};
+    \node[blk, right=15mm of I] (C) {$C$};
+    \node[sum, right=10mm of C] (s2) {$+$};
+    \node[right=8mm of s2] (y) {$\mathbf y$};
+    \node[blk, below=12mm of $(s1)!0.5!(C)$] (A) {$A$};
+    \node[blk, above=12mm of $(B)!0.5!(s2)$] (D) {$D$};
+    \draw[->] (u) -- (B); \draw[->] (B) -- (s1);
+    \draw[->] (s1) -- node[above, font=\small]{$\dot{\mathbf x}$} (I);
+    \draw[->] (I) -- node[above, font=\small]{$\mathbf x$} coordinate[pos=0.5](xm) (C);
+    \draw[->] (C) -- (s2); \draw[->] (s2) -- (y);
+    \draw[->] (xm) |- (A); \draw[->] (A) -| (s1);
+    \draw[->] ($(u)!0.5!(B)$) |- (D); \draw[->] (D) -| (s2);
+  \end{tikzpicture}\\[2mm]
+  {\small\color{muted}Eigenvalues of $A$ are the poles of $H(s)$: same system, two views.}}
+\tcblower
+\trap{\textbf{Every linear model is local.} Stray far from thy operating point, and saturation shall find thee out.}
+\end{commandment}

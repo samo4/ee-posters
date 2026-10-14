@@ -1,0 +1,37 @@
+\begin{commandment}[slot]{III}{Convolution}{Thou shalt know thy impulse response.}{Transfer functions, FIR/IIR filters, FFT, equalisers; Fourier, Laplace and $Z$ transforms.}
+\body{%
+  \begin{eqgroup}[Time $\leftrightarrow$ frequency]
+  \[ y(t)=\int x(\tau)\,h(t-\tau)\,d\tau \ \ \Longleftrightarrow\ \ Y=X\cdot H \]
+  \end{eqgroup}
+  \begin{eqgroup}[Causal \& stable]
+  \[ h(t)=0 \text{ for } t<0 \qquad \text{poles: } \mathrm{Re}\,s<0,\ |z|<1 \]
+  \end{eqgroup}}%
+{%
+  \begin{tikzpicture}
+  \begin{axis}[posterplot, xmin=-4.3, xmax=4.5, ymin=-0.35, ymax=1.2, xlabel={$t$}, ylabel={$h(t)$},
+      xtick=\empty, ytick=\empty, samples=200, domain=-4:4]
+    \addplot[draw=none, fill=trap, fill opacity=0.18, domain=-4:0, samples=100] {sin(deg(pi*x))/(pi*x)} \closedcycle;
+    \addplot[accent, smooth] {sin(deg(pi*x))/(pi*x)};
+    \node[trap, font=\small, align=center] at (axis cs:-2.6,0.8) {$t<0$:\\needs the future};
+  \end{axis}
+  \end{tikzpicture}\\[1mm]
+  {\small\color{muted}The ideal low-pass filter is a sinc: it can't be built in real time.}}
+{\centering
+  \begin{tikzpicture}
+  \begin{axis}[posterplot, width=210mm, height=54mm, clip=false, xmin=-0.6, xmax=7.2, ymin=0, ymax=1.3,
+      xlabel={$\tau$}, xtick=\empty, ytick=\empty, samples=120]
+    \addplot[draw=none, fill=good, fill opacity=0.35, domain=1.3:2.8] {exp(-0.45*x)} \closedcycle;
+    \addplot[accent, domain=0:6.8] {exp(-0.45*x)};
+    \addplot[accent, domain=-0.5:0] {0};
+    \draw[accent] (axis cs:0,0) -- (axis cs:0,1);
+    \draw[trap, line width=1.6pt, fill=trap, fill opacity=0.06] (axis cs:1.3,0) rectangle (axis cs:2.8,0.9);
+    \draw[-{Latex[length=3mm]}, trap, line width=1.4pt] (axis cs:3.0,0.75) -- (axis cs:4.1,0.75);
+    \node[trap, font=\small, anchor=west] at (axis cs:4.15,0.75) {$h(t-\tau)$ slides; shaded area $=y(t)$};
+    \node[accent, font=\small, anchor=west] at (axis cs:0.15,1.12) {$x(\tau)$};
+    \node[good!70!black, font=\small] at (axis cs:2.05,0.2) {$y(t)$};
+    \draw[muted, thin] (axis cs:2.8,0) -- (axis cs:2.8,-0.08) node[below, font=\small, text=ink]{$t$};
+  \end{axis}
+  \end{tikzpicture}\par}
+\tcblower
+\trap{\textbf{Sharp filters cost delay.} Narrow is the passband, and long the ringing thereof.}
+\end{commandment}

@@ -1,0 +1,24 @@
+\begin{commandment}[slot]{II}{IQ \& phasors}{Thou shalt not forget the phase.}{AC analysis, Bode plots, modulation, I/Q receivers, Doppler radar.}
+\body{%
+  \begin{eqgroup}[A sinusoid is a complex number]
+  \[ A\cos(\omega t+\varphi)=\mathrm{Re}\{\underbrace{Ae^{j\varphi}}_{I+jQ}\,e^{j\omega t}\} \]
+  \end{eqgroup}
+  \begin{eqgroup}[Calculus becomes algebra: $\tfrac{d}{dt}\to j\omega$]
+  \[ Z_R=R \qquad Z_L=j\omega L \qquad Z_C=\frac{1}{j\omega C} \]
+  \end{eqgroup}}%
+{%
+  \begin{tikzpicture}[scale=0.9, line width=1.2pt]
+    \draw[-{Latex[length=3mm]}, muted] (-0.6,0) -- (3.6,0) node[right=1mm, text=ink, font=\fontsize{23}{23}\selectfont]{$\boldsymbol I$};
+    \draw[-{Latex[length=3mm]}, muted] (0,-0.6) -- (0,3.1) node[left=1.5mm, anchor=north east, text=ink, font=\fontsize{23}{23}\selectfont]{$\boldsymbol Q$};
+    \draw[rule, dashed] (0,0) circle (2.7);
+    \draw[-{Latex[length=4mm]}, accent, line width=2.4pt] (0,0) -- (35:2.7);
+    \node[accent, anchor=south west] at (35:2.85) {$Ae^{j\varphi}$};
+    \draw[dashed, accentlt] (35:2.7) -- (2.212,0) node[below]{$A\cos\varphi$};
+    \draw[dashed, accentlt] (35:2.7) -- (0,1.549) node[left]{$A\sin\varphi$};
+    \draw[trap] (0.9,0) arc (0:35:0.9) node[midway, right]{$\varphi$};
+    \draw[-{Latex[length=3mm]}, good] (55:3.1) arc (55:90:3.1) node[midway, above right]{$\omega$};
+      \end{tikzpicture}\\[1mm]
+  {\small\color{muted}A QAM constellation is just points on this plane.}}
+\tcblower
+\trap{\textbf{A phasor hath neither beginning nor end:} one frequency, linear, for ever. For the moment of switching, go thou unto Laplace.}
+\end{commandment}

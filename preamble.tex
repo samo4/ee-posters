@@ -1,0 +1,99 @@
+% ==========================================================================
+%  Shared preamble for every format of the poster (packages, palette, macros).
+%  The top files set \documentclass and geometry, then \input this.
+% ==========================================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[sc]{mathpazo}          % Palatino text + math
+\linespread{1.05}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing,patterns,shapes.symbols}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\usepackage[siunitx,american]{circuitikz}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{raster}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+% ---------------- palette ----------------
+\definecolor{paper}{HTML}{F8F5EE}
+\definecolor{ink}{HTML}{1E2430}
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{accentlt}{HTML}{6E93B5}
+\definecolor{trap}{HTML}{9A3B2E}
+\definecolor{muted}{HTML}{6B7280}
+\definecolor{rule}{HTML}{B9C6D3}
+\definecolor{good}{HTML}{3C7A4A}
+\pagecolor{paper}
+\color{ink}
+
+% ---------------- sizes ----------------
+\renewcommand{\normalsize}{\fontsize{17}{21}\selectfont}
+\renewcommand{\small}{\fontsize{14}{17}\selectfont}
+\renewcommand{\footnotesize}{\fontsize{12.5}{15}\selectfont}
+\newcommand{\eqsize}{\fontsize{19}{23}\selectfont}
+\newcommand{\mathbandsize}{\fontsize{19}{23}\selectfont}
+\normalsize
+
+\newcommand{\setdisplay}{%
+  \setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}%
+  \setlength{\abovedisplayshortskip}{3pt}\setlength{\belowdisplayshortskip}{3pt}}
+
+% ---------------- equation group: a thin box holding equations that belong together
+\newtcolorbox{eqgroup}[1][]{%
+  enhanced, colback=white, colframe=rule, boxrule=0.7pt, arc=2.5mm,
+  left=6pt, right=6pt, top=5pt, bottom=2pt, before skip=8pt, after skip=2pt,
+  fontupper=\eqsize, before upper={\setdisplay},
+  title={#1}, fonttitle=\footnotesize\scshape, coltitle=muted,
+  attach boxed title to top left={xshift=4mm, yshift=-\tcboxedtitleheight/2},
+  boxed title style={colback=white, colframe=white, boxrule=0pt, arc=0pt,
+                     left=3pt, right=3pt, top=0pt, bottom=0pt}}
+% single, ungrouped display equation
+\newcommand{\eqn}[1]{{\eqsize\setdisplay\[#1\]}}
+% minor / secondary equation (grey, smaller)
+\newcommand{\minor}[1]{{\small\color{muted}\setdisplay\[#1\]}}
+
+\newcommand{\trapicon}{\tikz[baseline=-0.15em]{%
+  \fill[trap, rounded corners=1.2pt] (0,-0.12em) -- (1.15em,-0.12em) -- (0.575em,0.92em) -- cycle;
+  \node[white, font=\bfseries\fontsize{11}{11}\selectfont, inner sep=0pt] at (0.575em,0.27em) {!};}}
+\newcommand{\trap}[1]{{\centering\fontsize{14.5}{17.5}\selectfont\itshape\color{trap}#1\par}}
+
+% ---------------- commandment box ----------------
+% [#1] extra options, #2 roman numeral, #3 name, #4 the commandment, #5 unlocks (sits on the bottom border)
+\newtcolorbox{commandment}[5][]{%
+  enhanced, colback=white, colframe=accent, boxrule=1.4pt, arc=4mm,
+  left=10pt, right=10pt, top=3pt, bottom=12pt,
+  title={%
+    \begin{tikzpicture}[baseline=(n.base)]
+      \node[rounded corners=6mm, fill=white, text=accent, minimum height=12mm, minimum width=12mm, inner xsep=2.5mm, inner ysep=0pt,
+            font=\fontsize{30}{30}\selectfont\bfseries] (n) {#2};
+    \end{tikzpicture}\hspace{0.5em}%
+    {\fontsize{26}{30}\selectfont\bfseries\itshape #4}},% #3 (topic name) kept in the source only, as a label
+  colbacktitle=accent, coltitle=white,
+  toptitle=2pt, bottomtitle=2pt, lefttitle=8pt, righttitle=12pt,
+  segmentation hidden, space to upper, middle=1pt,
+  overlay={\node[fill=white, draw=accent, line width=1.4pt, rounded corners=2.5mm,
+                 inner xsep=9pt, inner ysep=5pt, font=\small, text=ink, anchor=center]
+                 at (frame.south) {#5};},
+  #1}
+
+% two-part body: equations left, figure right
+\newcommand{\body}[3][0.52]{%
+  \begin{minipage}[c]{#1\linewidth}#2\end{minipage}\hfill
+  \begin{minipage}[c]{\dimexpr\linewidth-#1\linewidth-6mm\relax}\centering #3\end{minipage}\par}
+
+% common plot style
+\pgfplotsset{posterplot/.style={
+  width=120mm, height=46mm, axis lines=middle, axis line style={-{Latex[length=3mm]}, thick},
+  tick style={draw=none}, ticklabel style={font=\small}, label style={font=\normalsize},
+  every axis plot/.append style={line width=1.8pt}}}
+
+% ---------------- layout hooks ----------------
+% Blocks carry no layout of their own: each commandment opens with [slot], and the
+% top file sets what slot means (equal height group, etc.) just before \block.
+\tcbset{slot/.style={}}
+\newcommand{\block}[2][]{\tcbset{slot/.style={#1}}\input{blocks/#2}}

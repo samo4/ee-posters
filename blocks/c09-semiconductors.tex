@@ -1,0 +1,37 @@
+\begin{commandment}[slot]{IX}{Semiconductors}{Honour thy thermal voltage.}{Amplifiers (gain $=g_mR$), op-amps, power MOSFETs and IGBTs, CMOS, LEDs, solar cells.}
+\body{%
+  \begin{eqgroup}[The junction]
+  \[ I_D=I_S\big(e^{V_D/nV_T}-1\big) \qquad V_T=\frac{kT}{q}\approx26\ \text{mV} \]
+  \end{eqgroup}
+  \begin{eqgroup}[The transistor]
+  \[ \text{BJT: } g_m=\frac{I_C}{V_T} \]
+  \[ \text{MOSFET: } I_D=\tfrac12\mu C_{ox}\tfrac WL\,(V_{GS}-V_{th})^2 \]
+  \end{eqgroup}}%
+{%
+  \begin{tikzpicture}
+  \begin{axis}[posterplot, height=74mm, clip=false, axis lines=left, ymode=log, log basis y=10,
+      xmin=0.46, xmax=0.86, ymin=1e-6, ymax=1,
+      xlabel={$V_D$}, ylabel={},
+      xtick={0.5,0.6,0.7,0.8}, xticklabels={0.5\,V,0.6\,V,0.7\,V,0.8\,V},
+      ytick={1e-6,1e-5,1e-4,1e-3,1e-2,1e-1,1},
+      yticklabels={1\,\textmu A,10\,\textmu A,100\,\textmu A,1\,mA,10\,mA,100\,mA,1\,A},
+      minor ytick={2e-6,3e-6,4e-6,5e-6,6e-6,7e-6,8e-6,9e-6,
+                   2e-5,3e-5,4e-5,5e-5,6e-5,7e-5,8e-5,9e-5,
+                   2e-4,3e-4,4e-4,5e-4,6e-4,7e-4,8e-4,9e-4,
+                   2e-3,3e-3,4e-3,5e-3,6e-3,7e-3,8e-3,9e-3,
+                   2e-2,3e-2,4e-2,5e-2,6e-2,7e-2,8e-2,9e-2,
+                   0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9},
+      ymajorgrids, yminorgrids, xmajorgrids,
+      major grid style={rule, line width=0.6pt}, minor grid style={rule!45, line width=0.3pt},
+      samples=60, domain=0.479:0.838]
+    \addplot[accent] {1e-14*exp(x/0.026)};
+    \node[anchor=south west, font=\normalsize] at (rel axis cs:0,1) {$I_D$};
+    \draw[trap, line width=1.4pt] (axis cs:0.60,1.05e-4) -- (axis cs:0.72,1.05e-4) -- (axis cs:0.72,1.05e-2);
+    \node[trap, font=\small, below, fill=white, inner sep=1pt] at (axis cs:0.66,1.05e-4) {120 mV};
+    \node[trap, font=\small, right, fill=white, inner sep=1pt] at (axis cs:0.72,1.05e-3) {$\times100$};
+  \end{axis}
+  \end{tikzpicture}\\[1mm]
+  {\small\color{muted}On log paper the exponential is a straight line: $\times10$ per 60\,mV, set by $V_T$.}}
+\tcblower
+\trap{\textbf{Beware thermal runaway.} Heat begat current, and current begat heat ($V_{BE}$ falls 2\,mV/\textdegree C): emitter resistors break the line.}
+\end{commandment}
