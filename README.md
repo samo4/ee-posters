@@ -10,7 +10,7 @@ Content lives in `blocks/` (one file per commandment, plus title, motto, chapter
 
 ## Build
 
-Needs TeX Live (tikz, pgfplots, circuitikz, tcolorbox, mathpazo), latexmk and [just](https://just.systems).
+Needs TeX Live (tikz, pgfplots, circuitikz, tcolorbox, mathpazo, hyperref), latexmk and [just](https://just.systems).
 
 ```sh
 just                                   # both formats
