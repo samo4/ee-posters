@@ -1,0 +1,82 @@
+% ==========================================================================
+%  The Ten Commandments of Electrical Engineering  --  16:9 slides, one block per page
+%  Same blocks/ as the A1 poster (ee-ten-commandments.tex); only the layout differs.
+%  Blocks can tell the slides apart with \ifslides, \slidesonly{...} and \posteronly{...}.
+%  Compile: just poster ee-ten-commandments-slides
+% ==========================================================================
+\RequirePackage{fix-cm}
+\documentclass{article}
+\usepackage[paperwidth=600mm,paperheight=337.5mm,left=16mm,right=16mm,top=12mm,bottom=12mm]{geometry}
+\input{preamble}
+\usepackage{lastpage}
+\slidestrue
+
+% ---------------- frame: header, body, footer ----------------
+\newlength{\slidebodyh}
+\setlength{\slidebodyh}{\dimexpr\textheight-\topskip-42mm\relax}
+
+\newcommand{\slidehead}{%
+  {\fontsize{26}{30}\selectfont\scshape\color{muted}The Ten Commandments of Electrical Engineering\hfill
+   \upshape\thepage\,/\,\pageref*{LastPage}}\par\vspace{2mm}
+  {\color{accent}\rule{\linewidth}{1.6pt}}\par}
+
+% the footer cycles through these notes, one per page
+\ExplSyntaxOn
+\seq_new:N \g_slides_notes_seq
+\NewDocumentCommand{\addslidenote}{m}{\seq_gput_right:Nn \g_slides_notes_seq {#1}}
+\NewDocumentCommand{\slidenote}{}{%
+  \seq_item:Nn \g_slides_notes_seq {\int_mod:nn {\value{page}-1} {\seq_count:N \g_slides_notes_seq} + 1}}
+\ExplSyntaxOff
+\addslidenote{\notewhoso}
+\addslidenote{\noteharmed}
+
+\newcommand{\slidefoot}{%
+  {\color{rule}\rule{\linewidth}{0.8pt}}\par\vspace{2mm}
+  {\fontsize{22}{26}\selectfont\itshape\color{muted}\slidenote\hfill
+   \upshape\href{\repourl}{\color{accent}\repourl}}\par}
+
+% [#1] header, #2 body, centred in the space between header and footer
+\newcommand{\slidepage}[2][\slidehead]{%
+  \clearpage\noindent
+  \begin{minipage}[t][\dimexpr\textheight-\topskip-1mm\relax][s]{\linewidth}\vspace{0pt}
+    #1\vfill
+    \parbox[c][\slidebodyh][c]{\linewidth}{\centering #2}\vfill
+    \slidefoot
+  \end{minipage}}
+
+% ---------------- scaled blocks ----------------
+% Every commandment is drawn at the same scale and stretched to the same box, so the type
+% matches from slide to slide and the spare room goes inside the box, not around it.
+\newcommand{\cmdscale}{1.8}
+\newcommand{\chapterscale}{1.25}
+\newcommand{\pillroom}{6mm}% the "unlocks" pill hangs below the box
+\pgfmathsetlengthmacro{\cmdw}{\textwidth/\cmdscale}
+\pgfmathsetlengthmacro{\cmdh}{\slidebodyh/\cmdscale-\pillroom}
+\pgfmathsetlengthmacro{\chapterw}{\textwidth/\chapterscale}
+\pgfmathsetlengthmacro{\chapterh}{\slidebodyh/\chapterscale}
+
+\newcommand{\scaled}[3]{\scalebox{#1}{\begin{minipage}{#2}#3\end{minipage}}}
+\newcommand{\cmdslide}[1]{\slidepage{\scaled{\cmdscale}{\cmdw}{%
+  \block[height=\cmdh, valign upper=center]{#1}\par\vspace{\pillroom}}}}
+
+\begin{document}
+% ===================================================================== title
+\slidepage[]{\scaled{1.25}{430mm}{%
+  \input{blocks/title}\par
+  \vspace{4mm}
+  {\color{accent}\rule{\linewidth}{2.5pt}}\par
+  \vspace{6mm}
+  {\raggedleft\input{blocks/motto}\par}}}
+% ===================================================================== chapter i, I--X
+\slidepage{\scaled{\chapterscale}{\chapterw}{\block[height=\chapterh, valign=center]{chapter-i}}}
+\cmdslide{c01-circuit-laws}
+\cmdslide{c02-phasors}
+\cmdslide{c03-convolution}
+\cmdslide{c04-shannon}
+\cmdslide{c05-state-space}
+\cmdslide{c06-maxwell}
+\cmdslide{c07-power}
+\cmdslide{c08-noise}
+\cmdslide{c09-semiconductors}
+\cmdslide{c10-logic}
+\end{document}

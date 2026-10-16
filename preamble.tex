@@ -93,8 +93,15 @@
   tick style={draw=none}, ticklabel style={font=\small}, label style={font=\normalsize},
   every axis plot/.append style={line width=1.8pt}}}
 
+% ---------------- format switch ----------------
+% The slides set \slidestrue; blocks use these for content or layout that differs on the slides.
+\newif\ifslides
+\newcommand{\slidesonly}[1]{\ifslides#1\fi}
+\newcommand{\posteronly}[1]{\ifslides\else#1\fi}
+\input{blocks/notes}
+
 % ---------------- layout hooks ----------------
-% Blocks carry no layout of their own: each commandment opens with [slot], and the
+% Blocks carry no layout of their own: each block's box opens with [slot], and the
 % top file sets what slot means (equal height group, etc.) just before \block.
 \tcbset{slot/.style={}}
 \newcommand{\block}[2][]{\tcbset{slot/.style={#1}}\input{blocks/#2}}

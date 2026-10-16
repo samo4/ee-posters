@@ -1,4 +1,4 @@
-\begin{tcolorbox}[enhanced, colback=white, colframe=ink, boxrule=1.6pt, arc=4mm,
+\begin{tcolorbox}[slot, enhanced, colback=white, colframe=ink, boxrule=1.6pt, arc=4mm,
   left=12pt, right=12pt, top=6pt, bottom=7pt,
   title={%
     {\fontsize{52}{52}\selectfont\bfseries\itshape i\kern0.04em}%
@@ -7,7 +7,7 @@
   colbacktitle=ink, coltitle=white, toptitle=4pt, bottomtitle=4pt, lefttitle=10pt, righttitle=14pt]
 \mathbandsize\setdisplay
 \newcommand{\mathcol}[1]{\begin{minipage}[t]{0.327\linewidth}\vspace{0pt}#1\end{minipage}}
-\begin{minipage}[t]{0.66\linewidth}
+\newcommand{\maths}{%
 \mathcol{%
   \begin{eqgroup}[Euler: the most important line in the degree]
   \[ e^{j\theta}=\cos\theta+j\sin\theta \]
@@ -44,12 +44,15 @@
   \[ P(A\,|\,B)=\frac{P(B\,|\,A)\,P(A)}{P(B)} \]
   \[ \mathrm{Var}(X+Y)=\mathrm{Var}\,X+\mathrm{Var}\,Y \quad\text{(indep.)} \]
   \[ \bar x\ \sim\ \mathcal N\!\big(\mu,\ \sigma^2/n\big) \quad\text{(CLT)} \]
-  \end{eqgroup}}
-\end{minipage}\hfill
-\begin{minipage}[t]{0.325\linewidth}\vspace{0pt}\centering
+  \end{eqgroup}}}
+\newcommand{\secondorder}{%
   \begin{eqgroup}[Second order: time and frequency]
   \[ \ddot y+2\zeta\omega_0\dot y+\omega_0^2y=\omega_0^2u \]
-  \end{eqgroup}\vspace{1mm}
+  \end{eqgroup}}
+% on the slides the Bode plot sits beside the step response instead of under it
+\ifslides\pgfplotsset{bode at/.style={at={(step.south east)}, anchor=south west, xshift=40mm}}
+\else\pgfplotsset{bode at/.style={at={(step.south west)}, anchor=north west, yshift=-9mm}}\fi
+\newcommand{\responses}{%
   \begin{tikzpicture}
   \begin{axis}[posterplot, name=step, scale only axis, width=118mm, height=29mm, xmin=0, xmax=10.5, ymin=0, ymax=1.6,
      xlabel={$\omega_0 t$}, ylabel={step}, every axis y label/.style={at={(axis description cs:0,1)}, anchor=south west, xshift=2mm},
@@ -65,7 +68,7 @@
     \addlegendentry{$\zeta=2$}
     \draw[muted, dashed, thin] (axis cs:0,1) -- (axis cs:10.5,1);
   \end{axis}
-  \begin{semilogxaxis}[posterplot, name=bode, at={(step.south west)}, anchor=north west, yshift=-9mm, scale only axis, axis lines=left, width=118mm, height=27mm, xmin=0.1, xmax=10, ymin=-40, ymax=10,
+  \begin{semilogxaxis}[posterplot, name=bode, bode at, scale only axis, axis lines=left, width=118mm, height=27mm, xmin=0.1, xmax=10, ymin=-40, ymax=10,
      xlabel={$\omega/\omega_0$}, ylabel={$|H|$ [dB]},
      every axis y label/.style={at={(axis description cs:0,0)}, anchor=south west, xshift=3mm, yshift=1mm},
      every axis x label/.style={at={(axis description cs:1,0)}, anchor=north east},
@@ -75,10 +78,26 @@
     \addplot[good, smooth] {-10*log10((1-x^2)^2+(2*x)^2)};
     \addplot[trap, smooth] {-10*log10((1-x^2)^2+(4*x)^2)};
   \end{semilogxaxis}
-  \node[rotate=-90, anchor=south, text=muted, font=\small, align=center]
-    at ($(step.above north east)!0.5!(bode.below south east)+(30mm,0)$) {RLC, servo, suspension, PLL:\\ one equation.};
-  \end{tikzpicture}
+  \posteronly{\node[rotate=-90, anchor=south, text=muted, font=\small, align=center]
+    at ($(step.above north east)!0.5!(bode.below south east)+(30mm,0)$) {RLC, servo, suspension, PLL:\\ one equation.};}
+  \end{tikzpicture}}
+\ifslides
+\maths\par
+\vspace{5mm}
+\begin{minipage}[c]{0.3\linewidth}\centering
+  \secondorder\vspace{3mm}
+  {\small\color{muted}RLC, servo, suspension, PLL: one equation.}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.68\linewidth}\centering\responses\end{minipage}\par
+\else
+\begin{minipage}[t]{0.66\linewidth}
+\maths
+\end{minipage}\hfill
+\begin{minipage}[t]{0.325\linewidth}\vspace{0pt}\centering
+  \secondorder\vspace{1mm}
+  \responses
 \end{minipage}
+\fi
 
 \vspace{6pt}
 \trap{Behold, every signal hath two faces, time and frequency: cross over unto the side where the problem is easy, and ye shall find rest. \textbf{Prove all things:} check thy units, thy limits and thy signs; \textbf{hold fast that which is good.}}

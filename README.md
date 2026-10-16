@@ -1,22 +1,30 @@
 # The Ten Commandments of Electrical Engineering
 
-A poster in two formats built from the same content:
+Ten ideas every electrical engineering student should leave university with, set out in King James English.
+It opens with the shared maths (Euler, transforms, linear algebra, vector calculus, probability).
+The ten commandments follow: circuit laws, phasors, convolution, sampling and Shannon, state-space, Maxwell,
+the power triangle, noise and measurement, semiconductors, and logic timing.
 
-- `ee-ten-commandments.tex`: A1 portrait (594 × 841 mm)
-- `ee-ten-commandments-16x9.tex`: 16:9 landscape, for a monitor
+[![The A1 poster](https://github.com/samo4/ten-commandments/releases/latest/download/preview.png)](https://github.com/samo4/ten-commandments/releases/latest/download/ee-ten-commandments.pdf)
 
-Content lives in `blocks/` (one file per commandment, plus title, motto, chapter i and the gutter notes);
-`preamble.tex` holds the packages, palette and macros. The two top files only do the layout.
+A poster in three formats built from the same content; the PDFs of each are on the [latest release](https://github.com/samo4/ten-commandments/releases/latest):
+
+- `ee-ten-commandments.tex`: A1 portrait
+- `ee-ten-commandments-16x9.tex`: 16:9 landscape
+- `ee-ten-commandments-slides.tex`: 16:9 slides
 
 ## Build
 
-Needs TeX Live (tikz, pgfplots, circuitikz, tcolorbox, mathpazo, hyperref), latexmk and [just](https://just.systems).
+Needs TeX Live and optionally [just](https://just.systems). VS Code works well too.
 
 ```sh
-just                                   # both formats
+just                                   # all formats
 just poster ee-ten-commandments-16x9   # one format
 just watch                             # rebuild on save outside VS Code
 just check                             # overfull boxes, missing glyphs
 ```
 
-Build files go to `build/`; the finished PDF is copied next to its source. Pushing a tag attaches both PDFs to a GitHub release.
+## Contributing
+
+Pull requests and bug reports are welcome.
+Please run `just check` before opening a pull request; a poster/slide/pptx with too much information kills the message, paraphrasing [Tufte, 2003].

@@ -1,6 +1,6 @@
 name: Build posters on release
 
-# Every pushed tag builds both formats and attaches the PDFs to a GitHub release of that tag.
+# Every pushed tag builds every format and attaches the PDFs to a GitHub release of that tag.
 on:
   push:
     tags:
@@ -21,7 +21,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             latexmk texlive-latex-recommended texlive-latex-extra \
-            texlive-pictures texlive-fonts-recommended texlive-science
+            texlive-pictures texlive-fonts-recommended texlive-science poppler-utils
 
       - name: Install just
         uses: taiki-e/install-action@v2
@@ -29,7 +29,7 @@ jobs:
           tool: just
 
       - name: Build the posters
-        run: just
+        run: just && just preview
 
       - name: Publish release
         if: startsWith(github.ref, 'refs/tags/')
@@ -38,4 +38,6 @@ jobs:
           files: |
             ee-ten-commandments.pdf
             ee-ten-commandments-16x9.pdf
+            ee-ten-commandments-slides.pdf
+            preview.png
           fail_on_unmatched_files: true
