@@ -29,6 +29,7 @@ jobs:
           tool: just
 
       - name: Build the posters
+        working-directory: 10-commandments
         run: just && just preview
 
       - name: Publish release
@@ -36,8 +37,8 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           files: |
-            ee-ten-commandments.pdf
-            ee-ten-commandments-16x9.pdf
-            ee-ten-commandments-slides.pdf
-            preview.png
+            10-commandments/ee-ten-commandments.pdf
+            10-commandments/ee-ten-commandments-16x9.pdf
+            10-commandments/ee-ten-commandments-slides.pdf
+            10-commandments/preview.png
           fail_on_unmatched_files: true

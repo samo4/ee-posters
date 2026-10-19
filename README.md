@@ -1,28 +1,9 @@
-# The Ten Commandments of Electrical Engineering
+# EE posters
 
-Ten ideas every electrical engineering student should leave university with, set out in King James English.
-It opens with the shared maths (Euler, transforms, linear algebra, vector calculus, probability).
-The ten commandments follow: circuit laws, phasors, convolution, sampling and Shannon, state-space, Maxwell,
-the power triangle, noise and measurement, semiconductors, and logic timing.
+Posters for electrical engineering students, each in its own folder with its sources and build.
 
-[![The A1 poster](https://github.com/samo4/ten-commandments/releases/latest/download/preview.png)](https://github.com/samo4/ten-commandments/releases/latest/download/ee-ten-commandments.pdf)
-
-A poster in three formats built from the same content; the PDFs of each are on the [latest release](https://github.com/samo4/ten-commandments/releases/latest):
-
-- `ee-ten-commandments.tex`: A1 portrait
-- `ee-ten-commandments-16x9.tex`: 16:9 landscape
-- `ee-ten-commandments-slides.tex`: 16:9 slides
-
-## Build
-
-Needs TeX Live and optionally [just](https://just.systems). VS Code works well too.
-
-```sh
-just                                   # all formats
-just poster ee-ten-commandments-16x9   # one format
-just watch                             # rebuild on save outside VS Code
-just check                             # overfull boxes, missing glyphs
-```
+- [The Ten Commandments of Electrical Engineering](10-commandments/): ten ideas every EE student should leave university with,
+  set out in King James English.
 
 ## Contributing
 
