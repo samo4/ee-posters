@@ -10,8 +10,8 @@
   },
   "runOnSave.commands": [
     {
-      // a top-level poster file: rebuild just that format
-      "match": "[\\\\/]ee-ten-commandments[^\\\\/]*\\.tex$",
+      // a top-level poster file: rebuild just that one
+      "match": "[\\\\/](ee-ten-commandments[^\\\\/]*|lnas-poster)\\.tex$",
       "command": "cd \"${fileDirname}\" && just poster \"${fileBasenameNoExtension}\"",
       "runIn": "terminal",
       "terminalReveal": "onError"

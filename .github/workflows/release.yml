@@ -32,6 +32,10 @@ jobs:
         working-directory: 10-commandments
         run: just && just preview
 
+      - name: Build the linear systems poster
+        working-directory: linear-systems
+        run: just
+
       - name: Publish release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v3
@@ -41,4 +45,5 @@ jobs:
             10-commandments/ee-ten-commandments-16x9.pdf
             10-commandments/ee-ten-commandments-slides.pdf
             10-commandments/preview.png
+            linear-systems/lnas-poster.pdf
           fail_on_unmatched_files: true
