@@ -47,7 +47,7 @@
   \setlength{\abovedisplayskip}{2pt}\setlength{\belowdisplayskip}{2pt}%
   \setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}}
 
-% notation: bold for vectors and matrices, as on the blackboard
+% notation: arrows for vectors, bold for matrices, as on the blackboard
 \newcommand{\A}{\mathbf A}
 \newcommand{\B}{\mathbf B}
 \newcommand{\Cm}{\mathbf C}
@@ -57,10 +57,10 @@
 \newcommand{\V}{\mathbf V}
 \newcommand{\J}{\mathbf J}
 \newcommand{\N}{\mathbf N}
-\newcommand{\x}{\mathbf x}
-\newcommand{\uu}{\mathbf u}
-\newcommand{\y}{\mathbf y}
-\newcommand{\vv}{\mathbf v}
+\newcommand{\x}{\vec x}
+\newcommand{\uu}{\vec u}
+\newcommand{\y}{\vec y}
+\newcommand{\vv}{\vec v}
 \newcommand{\Lam}{\boldsymbol\Lambda}
 \newcommand{\ctrb}{\mathcal C}
 \newcommand{\obsv}{\mathcal O}
@@ -230,7 +230,7 @@
 
 % ===================================================================== THE TEN MODES
 \noindent\begin{minipage}[t]{0.488\linewidth}
-\begin{mode}[equal height group=row1]{1}{LTI}{Add the inputs, add the outputs.}{Unlocks: impulse response, convolution, $e^{\A t}$, transfer functions: every other box on this sheet.}
+\begin{mode}[equal height group=row1]{1}{LTI}{Add the inputs, add the outputs.}{impulse response, convolution, $e^{\A t}$, transfer functions: every other box on this sheet.}
 \body{%
   \begin{eqgroup}[Linear: superposition]
   \[ L(au_1+bu_2)=a\,L(u_1)+b\,L(u_2) \]
@@ -263,7 +263,7 @@
 \end{mode}
 \end{minipage}\hfill%
 \begin{minipage}[t]{0.488\linewidth}
-\begin{mode}[equal height group=row1]{2}{Modeling}{One state per energy store.}{Unlocks: $\dot\x=\A\x+\B\uu$ for circuits, cars, motors, populations and economies.}
+\begin{mode}[equal height group=row1]{2}{Modeling}{One state per energy store.}{$\dot\x=\A\x+\B\uu$ for circuits, cars, motors, populations and economies.}
 \body{%
   \begin{eqgroup}[Pick the states: what cannot jump]
   \[ L\to i_L \quad C\to v_C \quad m\to x,\,v \quad J\to\theta,\,\omega \]
@@ -314,10 +314,10 @@
 \vspace{3mm plus 1fill}
 
 \noindent\begin{minipage}[t]{0.488\linewidth}
-\begin{mode}[equal height group=row2]{3}{Linear algebra}{Same map, different words.}{Unlocks: modes, decoupling, $e^{\A t}$ and $\A^k$, and every rank test in $\lambda_7$.}
+\begin{mode}[equal height group=row2]{3}{Linear algebra}{Same map, different words.}{modes, decoupling, $e^{\A t}$ and $\A^k$, and every rank test in $\lambda_7$.}
 \body[0.55]{%
   \begin{eqgroup}[Eigenvalues, eigenvectors, multiplicities]
-  \[ \det(\A-\lambda\I)=0 \qquad (\A-\lambda\I)\,\vv=\mathbf 0 \]
+  \[ \det(\A-\lambda\I)=0 \qquad (\A-\lambda\I)\,\vv=\vec 0 \]
   \[ m_g=n-\rank(\A-\lambda\I)\qquad 1\le m_g\le m_a \]
   \end{eqgroup}
   \begin{eqgroup}[Similarity keeps the meaning]
@@ -342,8 +342,8 @@
     % eigenvector x1
     \draw[->, accent, line width=2pt] (0,0) -- (-0.8,0.8) node[above, font=\small]{$\A\vv_2=\vv_2$};
     % knocked off
-    \draw[->, good, line width=1.6pt] (0,0) -- (1,0) node[below, font=\small]{$\mathbf w$};
-    \draw[->, trap, line width=2pt] (0,0) -- (2,1) node[right, font=\small]{$\A\mathbf w$};
+    \draw[->, good, line width=1.6pt] (0,0) -- (1,0) node[below, font=\small]{$\vec w$};
+    \draw[->, trap, line width=2pt] (0,0) -- (2,1) node[right, font=\small]{$\A\vec w$};
     \draw[trap, line width=0.8pt, ->] (1.0,0.15) arc[start angle=0, end angle=22, radius=1.6];
   \end{tikzpicture}\\[1mm]
   {\eqsize $\A=\begin{bmatrix}2&1\\1&2\end{bmatrix}\ \overset{\T\,=\,[\vv_1\ \vv_2]}{\longrightarrow}\ \tilde\A=\begin{bmatrix}3&0\\0&1\end{bmatrix}$}\\[2mm]
@@ -354,7 +354,7 @@
 \end{mode}
 \end{minipage}\hfill%
 \begin{minipage}[t]{0.488\linewidth}
-\begin{mode}[equal height group=row2]{4}{State-space solution}{The state forgets nothing it needs.}{Unlocks: step and impulse responses, sampling ($\A_D=e^{\A_cT}$), the controllability proof, observers.}
+\begin{mode}[equal height group=row2]{4}{State-space solution}{The state forgets nothing it needs.}{step and impulse responses, sampling ($\A_D=e^{\A_cT}$), the controllability proof, observers.}
 \body[0.56]{%
   \begin{eqgroup}[The whole solution, in one line]
   \[ \x(t)=\underbrace{e^{\A(t-t_0)}\x(t_0)}_{\text{free: initial state}}+\underbrace{\int_{t_0}^{t}e^{\A(t-\tau)}\B\uu(\tau)\,d\tau}_{\text{forced: convolution}} \]
@@ -434,7 +434,7 @@
 \end{mode}
 \end{minipage}\hfill%
 \begin{minipage}[t]{0.488\linewidth}
-\begin{mode}[equal height group=row3]{6}{Stability}{Left of the axis, all is well.}{Unlocks: BIBO, robustness margins, pole placement, local stability of nonlinear systems ($\lambda_9$).}
+\begin{mode}[equal height group=row3]{6}{Stability}{Left of the axis, all is well.}{BIBO, robustness margins, pole placement, local stability of nonlinear systems ($\lambda_9$).}
 \body[0.50]{%
   \begin{eqgroup}[Lyapunov, read off the eigenvalues of $\A$]
   \renewcommand{\arraystretch}{1.3}
@@ -472,7 +472,7 @@
 \vspace{3mm plus 1fill}
 
 \noindent\begin{minipage}[t]{0.488\linewidth}
-\begin{mode}[equal height group=row4]{7}{Controllability and observability}{Can you push it? Can you see it?}{Unlocks: state feedback $\uu=-K\x$, observers and the Kalman filter, minimal realizations.}
+\begin{mode}[equal height group=row4]{7}{Controllability and observability}{Can you push it? Can you see it?}{state feedback $\uu=-K\x$, observers and the Kalman filter, minimal realizations.}
 \body[0.52]{%
   \begin{eqgroup}[Controllable: only $(\A,\B)$ matter]
   \[ \ctrb=\begin{bmatrix}\B&\A\B&\cdots&\A^{n-1}\B\end{bmatrix}\qquad \rank\ctrb=n \]
@@ -482,7 +482,7 @@
   \note{$\obsv$ stacks $\Cm,\ \Cm\A,\ \dots,\ \Cm\A^{n-1}$ as rows: $(\A,\Cm)$ is observable iff $(\A^{\mathsf T},\Cm^{\mathsf T})$ is controllable.}
   \end{eqgroup}
   \begin{eqgroup}[Why it stops at $n-1$: Cayley--Hamilton]
-  \[ \x(t)=\textstyle\sum_{k<n}\A^k\B\,\mathbf w_k=\ctrb\,\mathbf w \]
+  \[ \x(t)=\textstyle\sum_{k<n}\A^k\B\,\vec w_k=\ctrb\,\vec w \]
   \note{Reachable states live in the range of $\ctrb$. One input cannot control two Jordan blocks of the same $\lambda$: you need $m\ge\max_i m_{g,i}$ inputs.}
   \end{eqgroup}}%
 {%
@@ -502,13 +502,13 @@
   \end{tikzpicture}\\[2mm]
   {\small\color{muted}Kalman's four rooms. Only the top-left one reaches $G(s)$; the others leave as cancelling pole--zero pairs:}\\[2mm]
   {\eqsize $\displaystyle G(s)=\frac{\xcancel{(s+1)}(s+4)}{\xcancel{(s+1)}(s+2)(s+3)}$}\\[1mm]
-  {\small\color{muted}Here $\Cm\vv=0$ for the eigenvector of $\lambda=-1$: the sensor never sees that mode.}}
+  {\small\color{muted}Here $\Cm\vv=\vec 0$ for the eigenvector of $\lambda=-1$: the sensor never sees that mode.}}
 \tcblower
 \trap{Test the rank, not the determinant: $\ctrb$ is $n\times nm$, square only for one input. A zero row of $\B$ in modal form is a mode the input never touches.}
 \end{mode}
 \end{minipage}\hfill%
 \begin{minipage}[t]{0.488\linewidth}
-\begin{mode}[equal height group=row4]{8}{Transfer functions}{Convolution becomes multiplication.}{Unlocks: frequency response $G(j\omega)$, Bode and Nyquist, filters, PID, block-diagram algebra.}
+\begin{mode}[equal height group=row4]{8}{Transfer functions}{Convolution becomes multiplication.}{frequency response $G(j\omega)$, Bode and Nyquist, filters, PID, block-diagram algebra.}
 \body[0.54]{%
   \begin{eqgroup}[From state space (zero initial state)]
   \[ \mathbf G(s)=\Cm(s\I-\A)^{-1}\B+\D \]
@@ -560,12 +560,12 @@
 \vspace{3mm plus 1fill}
 
 \noindent\begin{minipage}[t]{0.488\linewidth}
-\begin{mode}[equal height group=row5]{9}{Linearization}{Every curve is straight up close.}{Unlocks: small-signal models, operating points, predator--prey and epidemic thresholds, process control.}
+\begin{mode}[equal height group=row5]{9}{Linearization}{Every curve is straight up close.}{small-signal models, operating points, predator--prey and epidemic thresholds, process control.}
 \body[0.55]{%
   \begin{eqgroup}[Equilibrium first, then the Jacobians]
-  \[ \mathbf f(\x_e,\uu_e)=\mathbf 0\qquad \delta\dot\x=\A\,\delta\x+\B\,\delta\uu \]
-  \[ \A=\frac{\partial\mathbf f}{\partial\x}\Big|_e\quad \B=\frac{\partial\mathbf f}{\partial\uu}\Big|_e\quad
-     \Cm=\frac{\partial\mathbf g}{\partial\x}\Big|_e\quad \D=\frac{\partial\mathbf g}{\partial\uu}\Big|_e \]
+  \[ \vec f(\x_e,\uu_e)=\vec 0\qquad \delta\dot\x=\A\,\delta\x+\B\,\delta\uu \]
+  \[ \A=\frac{\partial\vec f}{\partial\x}\Big|_e\quad \B=\frac{\partial\vec f}{\partial\uu}\Big|_e\quad
+     \Cm=\frac{\partial\vec g}{\partial\x}\Big|_e\quad \D=\frac{\partial\vec g}{\partial\uu}\Big|_e \]
   \end{eqgroup}
   \begin{eqgroup}[It is only Taylor, cut after the slope]
   \[ f(x)\approx f(x_0)+f'(x_0)(x-x_0)\quad \text{error}\sim(x-x_0)^2 \]
@@ -595,7 +595,7 @@
 \end{mode}
 \end{minipage}\hfill%
 \begin{minipage}[t]{0.488\linewidth}
-\begin{mode}[equal height group=row5]{10}{Discrete}{The unit circle is the new axis.}{Unlocks: digital control and DSP, simulation, Markov chains, Samuelson's economy, even tank battles.}
+\begin{mode}[equal height group=row5]{10}{Discrete}{The unit circle is the new axis.}{digital control and DSP, simulation, Markov chains, Samuelson's economy, even tank battles.}
 \body[0.54]{%
   \begin{eqgroup}[State equations and their solution]
   \[ \x[k+1]=\A\x[k]+\B\uu[k] \]
