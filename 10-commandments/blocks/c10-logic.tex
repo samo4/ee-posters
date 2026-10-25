@@ -1,6 +1,13 @@
 \begin{commandment}[slot]{X}{Logic \& timing}{Thou shalt not covet thy neighbour's clock.}{State machines, FPGAs, CPUs, embedded systems.}
 \centering
-\begin{minipage}[c]{0.92\linewidth}\centering
+% asides set sideways at both edges: #1 the saying, #2 who said it
+\newcommand{\aside}[2]{\begin{minipage}[c]{0.06\linewidth}\centering
+  \rotatebox[origin=c]{-90}{\begin{tabular}{@{}c@{}}{\itshape\color{muted}``#1''}\\[1pt]{\small\color{muted}--- #2}\end{tabular}}
+  \end{minipage}}%
+\aside{VHDL is taught; Verilog is spoken.}{the author}\hfill
+\begin{minipage}[c]{0.86\linewidth}
+% left: the datapath and its two races; right: the gate, then the constraints
+\begin{minipage}[c]{0.53\linewidth}\centering
 \begin{tikzpicture}[scale=0.76, transform shape, >={Latex[length=3mm]}, line width=1.1pt,
    ff/.style={draw, accent, fill=accent!7, minimum width=16mm, minimum height=20mm, text=ink, font=\normalsize}]
   % datapath
@@ -14,7 +21,7 @@
   \foreach \f in {f1,f2} \draw ($(\f.south west)+(0,0.25)$) -- ($(\f.south west)+(0.3,0.5)$) -- ($(\f.south west)+(0,0.75)$);
   \draw (-1.6,-1.6) node[left, font=\normalsize]{clk} -- (10.8,-1.6);
   \draw[->] (0,-1.6) -- (f1.south); \draw[->] (10.8,-1.6) -- (f2.south);
-  % timing bar
+  % setup: the slowest path must arrive before the next edge
   \begin{scope}[yshift=-3.5cm]
     \draw[muted] (0,0) -- (0,0.6) -- (1.6,0.6) -- (1.6,0) -- (3.2,0);
     \draw[muted] (12.0,0) -- (12.0,0.6) -- (13.0,0.6);
@@ -23,24 +30,38 @@
     \fill[muted!45]     (1.8,-0.9) rectangle (8.6,-0.3);
     \fill[trap!65]      (8.6,-0.9) rectangle (10.4,-0.3);
     \fill[pattern=north east lines, pattern color=good] (10.4,-0.9) rectangle (12.0,-0.3);
-    \node[font=\normalsize] at (0.9,-1.35) {$t_{clk\to Q}$};
-    \node[font=\normalsize] at (5.2,-1.35) {$t_{logic}$};
-    \node[font=\normalsize] at (9.5,-1.35) {$t_{setup}$};
+    \node[font=\normalsize] at (0.9,-1.35) {$t_{cq}$};
+    \node[font=\normalsize] at (5.2,-1.35) {$t_{logic,\max}$};
+    \node[font=\normalsize] at (9.5,-1.35) {$t_{su}$};
     \node[font=\normalsize, good] at (11.2,-1.35) {slack};
     \draw[{Latex}-{Latex}] (0,-1.95) -- (12.0,-1.95) node[midway, fill=white, inner sep=2pt, font=\normalsize]{$T_{clk}$: the race every path must win};
-  \end{scope}
-  % NAND
-  \begin{scope}[xshift=15.6cm, yshift=-0.9cm]
-    \draw (0,0) node[nand port, scale=1.6, line width=1.2pt] (n) {};
-    \node[font=\normalsize, align=center, below=4mm of n, xshift=12mm] {One gate builds all:\\NAND or NOR,\\hare or tortoise.};
+    % hold: the fastest path, checked against the same edge, so T_clk never enters
+    \fill[trap!65]   (0,-3.05) rectangle (1.0,-2.65);
+    \fill[pattern=north east lines, pattern color=good] (1.0,-3.05) rectangle (3.0,-2.65);
+    \fill[accent!65] (0,-3.85) rectangle (1.8,-3.25);
+    \fill[muted!45]  (1.8,-3.85) rectangle (3.0,-3.25);
+    \draw[muted, dashed, thin] (0,-2.5) -- (0,-4.0);
+    \node[font=\normalsize, anchor=west] at (3.3,-2.85) {$t_h$, then {\color{good}hold slack}};
+    \node[font=\normalsize, anchor=west] at (3.3,-3.55) {fastest path, same edge};
   \end{scope}
 \end{tikzpicture}
 \end{minipage}\hfill
-\begin{minipage}[c]{0.07\linewidth}\centering
-\rotatebox[origin=c]{-90}{\begin{tabular}{@{}c@{}}{\itshape\color{muted}``Every idiot can count to one.''}\\[1pt]{\small\color{muted}--- attrib.\ Bob Widlar}\end{tabular}}
-\end{minipage}\\[1mm]
-{\eqsize $T_{clk}\ \ge\ t_{clk\to Q}+t_{logic}+t_{setup}$ \qquad $\mathrm{MTBF}_{\mathrm{CDC}}=\dfrac{e^{\,t_r/\tau}}{T_0\,f_{clk}\,f_{data}}$}\par\vspace{6pt}
+\begin{minipage}[c]{0.45\linewidth}\centering
+  \begin{tikzpicture}[line width=1.2pt]
+    \node[nand port, scale=1.3] (n) {};
+    \node[font=\small, align=left, anchor=west, right=6mm of n.out] {One gate builds all:\\NAND or NOR,\\hare or tortoise.};
+  \end{tikzpicture}\par\vspace{2mm}
+  {\normalsize\setdisplay
+  \[ \begin{gathered}
+    T_{clk}\ge t_{cq}+t_{logic,\max}+t_{su}+t_{skew}\\
+    t_{cq}+t_{logic,\min}\ge t_h+t_{skew}
+  \end{gathered} \]
+  {\small\color{muted}hold: no slower clock shall save thee}
+  \[ \mathrm{MTBF}_{\mathrm{CDC}}=\frac{e^{\,t_r/\tau}}{T_0\,f_{clk}\,f_{data}} \]}
+\end{minipage}
+\end{minipage}\hfill
+\aside{Every idiot can count to one.}{attrib.\ Bob Widlar}\par\vspace{4pt}
 \raggedright
 \tcblower
-\trap{\textbf{Synchronise every crossing.} No flip-flop can serve two clocks: pass foreign signals through two flip-flops in a row.}
+\trap{\textbf{Synchronise every crossing.} Two flip-flops tame a single bit; a bus needeth Gray code or an async FIFO.}
 \end{commandment}
