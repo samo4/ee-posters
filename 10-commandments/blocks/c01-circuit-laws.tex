@@ -1,4 +1,4 @@
-\begin{commandment}[slot]{I}{Circuit laws}{Thou shalt conserve charge and energy.}{Nodal analysis $G\mathbf v=\mathbf i$ (what SPICE solves), mesh, superposition, dividers, loading.}
+\begin{commandment}[slot]{I}{Circuit laws}{Thou shalt conserve charge and energy.}{Nodal analysis $G\mathbf v=\mathbf i$ (the heart of SPICE), mesh, superposition, dividers, loading.}
 \body{%
   \begin{eqgroup}[Kirchhoff \& Ohm]
   \[ \textstyle\sum_{\text{node}} i=0 \qquad \sum_{\text{loop}} v=0 \qquad V=ZI \]
@@ -43,5 +43,5 @@
   $\displaystyle A=\begin{bmatrix} 0 & -\dfrac1C\\[8pt] \dfrac1L & -\dfrac RL \end{bmatrix}$}\\[2mm]
   {\small\color{muted}$\det Y(s)=0$ and $\operatorname{eig}(A)$: the same poles.}}
 \tcblower
-\trap{\textbf{Leave no node floating.} Ask, and SPICE shall answer; but a node with no path to ground maketh the matrix singular.}
+\trap{\textbf{Leave no node floating.} Ask, and SPICE shall answer; but a node with no DC path to ground maketh the matrix singular.}
 \end{commandment}

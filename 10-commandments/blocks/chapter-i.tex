@@ -34,7 +34,7 @@
   \end{eqgroup}
   \begin{eqgroup}[Transforms turn calculus into algebra]
   \[ X(\omega)=\int x(t)\,e^{-j\omega t}\,dt \]
-  \[ \mathcal L\{\dot y\}=sY(s)-y(0) \]
+  \[ \mathcal L\{\dot y\}=sY(s)-y(0^-) \]
   \[ X(z)=\sum_n x[n]\,z^{-n} \qquad z=e^{sT_s} \]
   \[ \tfrac{d}{dt}\to j\omega:\ \ Z_L=j\omega L \quad Z_C=1/j\omega C \]
   \end{eqgroup}
@@ -52,7 +52,7 @@
   \[ \bar x\ \sim\ \mathcal N\!\big(\mu,\ \sigma^2/n\big) \quad\text{(CLT)} \]
   \end{eqgroup}
   \begin{eqgroup}[Parseval and Dirac]
-  \[ \int|x(t)|^2dt=\int|X(f)|^2df \]
+  \[ \int|x(t)|^2dt=\frac{1}{2\pi}\int|X(\omega)|^2d\omega \]
   \[ \int x(\tau)\,\delta(t-\tau)\,d\tau=x(t) \]
   \end{eqgroup}}}
 \newcommand{\secondorder}{%
