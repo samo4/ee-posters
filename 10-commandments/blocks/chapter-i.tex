@@ -6,9 +6,9 @@
     {\fontsize{22}{26}\selectfont\itshape $i^2=-1$\,; engineers call it $j$, for $i$ is betrothed.}},
   colbacktitle=ink, coltitle=white, toptitle=4pt, bottomtitle=4pt, lefttitle=10pt, righttitle=14pt]
 \mathbandsize\setdisplay
-\newcommand{\mathcol}[1]{\begin{minipage}[t]{0.327\linewidth}\vspace{0pt}#1\end{minipage}}
-\newcommand{\maths}{%
-\mathcol{%
+% #1 width, #2 content; the three columns are named so the slides can rearrange them
+\newcommand{\mathcol}[2][0.327\linewidth]{\begin{minipage}[t]{#1}\vspace{0pt}#2\end{minipage}}
+\newcommand{\mathA}{%
   \begin{eqgroup}[Euler: the most important line in the degree]
   \[ e^{j\theta}=\cos\theta+j\sin\theta \]
   \end{eqgroup}
@@ -24,12 +24,14 @@
   % the slide has room the poster hasn't
   \slidesonly{%
   \begin{eqgroup}[Hilbert: signals are vectors, energy is length]
-  \[ \langle x,y\rangle=\int x(t)\,y^*(t)\,dt \qquad \|x\|^2=\langle x,x\rangle \]
+  \[ \langle x,y\rangle=\int x(t)\,y^*(t)\,dt \]
+  \[ \|x\|^2=\langle x,x\rangle \]
   \[ |\langle x,y\rangle|\le\|x\|\,\|y\| \quad\text{\small\color{muted}(why the matched filter wins)} \]
-  \end{eqgroup}}}\hfill
-\mathcol{%
+  \end{eqgroup}}}
+\newcommand{\mathB}{%
   \begin{eqgroup}[Linear systems and their modes]
-  \[ A\mathbf x=\mathbf b \qquad A\mathbf v=\lambda\mathbf v \]
+  \[ A\mathbf x=\mathbf b \]
+  \[ A\mathbf v=\lambda\mathbf v \]
   \[ \det(A-\lambda I)=0 \]
   \end{eqgroup}
   \begin{eqgroup}[Transforms turn calculus into algebra]
@@ -40,8 +42,8 @@
   \end{eqgroup}
   \begin{eqgroup}[Orthogonality: every coefficient is a projection]
   \[ c_k=\frac{\langle x,\varphi_k\rangle}{\langle\varphi_k,\varphi_k\rangle} \]
-  \end{eqgroup}}\hfill
-\mathcol{%
+  \end{eqgroup}}
+\newcommand{\mathC}{%
   \begin{eqgroup}[Divergence and Stokes]
   \[ \oint_S\mathbf F\cdot d\mathbf A=\int_V\nabla\cdot\mathbf F\,dV \]
   \[ \oint_C\mathbf F\cdot d\mathbf l=\int_S(\nabla\times\mathbf F)\cdot d\mathbf A \]
@@ -54,20 +56,24 @@
   \begin{eqgroup}[Parseval and Dirac]
   \[ \int|x(t)|^2dt=\frac{1}{2\pi}\int|X(\omega)|^2d\omega \]
   \[ \int x(\tau)\,\delta(t-\tau)\,d\tau=x(t) \]
-  \end{eqgroup}}}
+  \end{eqgroup}}
+\newcommand{\maths}{\mathcol{\mathA}\hfill\mathcol{\mathB}\hfill\mathcol{\mathC}}
 \newcommand{\secondorder}{%
   \begin{eqgroup}[Second order: time and frequency]
   \[ \ddot y+2\zeta\omega_0\dot y+\omega_0^2y=\omega_0^2u \]
   \end{eqgroup}}
-% on the slides the Bode plot sits beside the step response instead of under it
-\ifslides\pgfplotsset{bode at/.style={at={(step.south east)}, anchor=south west, xshift=40mm}}
-\else\pgfplotsset{bode at/.style={at={(step.south west)}, anchor=north west, yshift=-9mm}}\fi
+% on the slides the Bode plot sits beside the step response instead of under it, and both widen to fill the row
+% (the legend then stands in the gap between them)
+\ifslides\pgfplotsset{bode at/.style={at={(step.south east)}, anchor=south west, xshift=44mm}, resp width/.style={width=136mm}, step height/.style={height=36mm}, bode height/.style={height=34mm},
+  resp legend/.style={legend style={at={(1.075,0.62)}, anchor=west, row sep=-1pt}}}
+\else\pgfplotsset{bode at/.style={at={(step.south west)}, anchor=north west, yshift=-9mm}, resp width/.style={width=118mm}, step height/.style={height=29mm}, bode height/.style={height=27mm},
+  resp legend/.style={legend style={at={(1.03,-0.15)}, anchor=west, row sep=-1pt}}}\fi
 \newcommand{\responses}{%
   \begin{tikzpicture}
-  \begin{axis}[posterplot, name=step, scale only axis, width=118mm, height=29mm, xmin=0, xmax=10.5, ymin=0, ymax=1.6,
+  \begin{axis}[posterplot, name=step, scale only axis, resp width, step height, xmin=0, xmax=10.5, ymin=0, ymax=1.6,
      xlabel={$\omega_0 t$}, ylabel={step}, every axis y label/.style={at={(axis description cs:0,1)}, anchor=south west, xshift=2mm},
      xtick=\empty, ytick={1}, samples=140, domain=0:10,
-     legend style={draw=none, fill=none, font=\small, at={(1.03,-0.15)}, anchor=west, row sep=-1pt}, legend cell align=left]
+     legend style={draw=none, fill=none, font=\small}, resp legend, legend cell align=left]
     \addplot[accent, smooth] {1-exp(-0.2*x)*(cos(deg(0.9798*x))+0.2041*sin(deg(0.9798*x)))};
     \addlegendentry{$\zeta=0.2$}
     \addplot[accentlt, smooth] {1-exp(-0.7*x)*(cos(deg(0.7141*x))+0.9802*sin(deg(0.7141*x)))};
@@ -78,27 +84,29 @@
     \addlegendentry{$\zeta=2$}
     \draw[muted, dashed, thin] (axis cs:0,1) -- (axis cs:10.5,1);
   \end{axis}
-  \begin{semilogxaxis}[posterplot, name=bode, bode at, scale only axis, axis lines=left, width=118mm, height=27mm, xmin=0.1, xmax=10, ymin=-40, ymax=10,
+  \begin{semilogxaxis}[posterplot, name=bode, bode at, scale only axis, axis lines=left, resp width, bode height, xmin=0.1, xmax=1000, ymin=-126, ymax=12,
      xlabel={$\omega/\omega_0$}, ylabel={$|H|$ [dB]},
      every axis y label/.style={at={(axis description cs:0,0)}, anchor=south west, xshift=3mm, yshift=1mm},
      every axis x label/.style={at={(axis description cs:1,0)}, anchor=north east},
-     xtick={1}, xticklabels={$1$}, ytick=\empty, samples=120, domain=0.1:10]
+     xtick={1,10,100}, xticklabels={$1$,$10$,$100$}, ytick=\empty, samples=180, domain=0.1:1000]
     \addplot[accent, smooth] {-10*log10((1-x^2)^2+(0.4*x)^2)};
     \addplot[accentlt, smooth] {-10*log10((1-x^2)^2+(1.4*x)^2)};
     \addplot[good, smooth] {-10*log10((1-x^2)^2+(2*x)^2)};
     \addplot[trap, smooth] {-10*log10((1-x^2)^2+(4*x)^2)};
+    \node[muted, font=\small, anchor=south west] at (axis cs:30,-45) {$-40$ dB/dec};
   \end{semilogxaxis}
   \posteronly{\node[rotate=-90, anchor=south, text=muted, font=\small, align=center]
     at ($(step.above north east)!0.5!(bode.below south east)+(30mm,0)$) {RLC, servo, suspension, PLL:\\ one equation.};}
   \end{tikzpicture}}
+% slides: the second order closes the first column; the plots sit under the other two
 \ifslides
-\maths\par
-\vspace{5mm}
-\begin{minipage}[c]{0.3\linewidth}\centering
-  \secondorder\vspace{3mm}
-  {\small\color{muted}RLC, servo, suspension, PLL: one equation.}
-\end{minipage}\hfill
-\begin{minipage}[c]{0.68\linewidth}\centering\responses\end{minipage}\par
+\mathcol{\mathA\vspace{4mm}
+  \secondorder\vspace{2mm}
+  {\centering\small\color{muted}RLC, servo, suspension, PLL: one equation.\par}}\hfill
+\begin{minipage}[t]{0.665\linewidth}\vspace{0pt}
+  \mathcol[0.4917\linewidth]{\mathB}\hfill\mathcol[0.4917\linewidth]{\mathC}\par
+  \vspace{6mm}{\centering\responses\par}
+\end{minipage}\par
 \else
 \begin{minipage}[t]{0.66\linewidth}
 \maths
