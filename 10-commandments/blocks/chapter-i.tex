@@ -12,15 +12,14 @@
   \begin{eqgroup}[Euler: the most important line in the degree]
   \[ e^{j\theta}=\cos\theta+j\sin\theta \]
   \end{eqgroup}
+  \begin{eqgroup}[A sinusoid is a complex number]
+  \[ A\cos(\omega t+\varphi)=\mathrm{Re}\{\underbrace{Ae^{j\varphi}}_{I+jQ}\,e^{j\omega t}\} \]
+  \end{eqgroup}
   \begin{eqgroup}[Taylor: why linearisation works]
   \[ f(x_0+\Delta x)\approx f(x_0)+f'(x_0)\,\Delta x \]
   \end{eqgroup}
   \begin{eqgroup}[Decibels: logs turn products into sums]
   \[ G_{\mathrm{dB}}=10\log_{10}\frac{P_2}{P_1}=20\log_{10}\frac{V_2}{V_1} \]
-  \end{eqgroup}
-  \begin{eqgroup}[Parseval and Dirac]
-  \[ \int|x(t)|^2dt=\int|X(f)|^2df \]
-  \[ \int x(\tau)\,\delta(t-\tau)\,d\tau=x(t) \]
   \end{eqgroup}}\hfill
 \mathcol{%
   \begin{eqgroup}[Linear systems and their modes]
@@ -31,6 +30,7 @@
   \[ X(\omega)=\int x(t)\,e^{-j\omega t}\,dt \]
   \[ \mathcal L\{\dot y\}=sY(s)-y(0) \]
   \[ X(z)=\sum_n x[n]\,z^{-n} \qquad z=e^{sT_s} \]
+  \[ \tfrac{d}{dt}\to j\omega:\ \ Z_L=j\omega L \quad Z_C=1/j\omega C \]
   \end{eqgroup}
   \begin{eqgroup}[Orthogonality: every coefficient is a projection]
   \[ c_k=\frac{\langle x,\varphi_k\rangle}{\langle\varphi_k,\varphi_k\rangle} \]
@@ -44,6 +44,10 @@
   \[ P(A\,|\,B)=\frac{P(B\,|\,A)\,P(A)}{P(B)} \]
   \[ \mathrm{Var}(X+Y)=\mathrm{Var}\,X+\mathrm{Var}\,Y \quad\text{(indep.)} \]
   \[ \bar x\ \sim\ \mathcal N\!\big(\mu,\ \sigma^2/n\big) \quad\text{(CLT)} \]
+  \end{eqgroup}
+  \begin{eqgroup}[Parseval and Dirac]
+  \[ \int|x(t)|^2dt=\int|X(f)|^2df \]
+  \[ \int x(\tau)\,\delta(t-\tau)\,d\tau=x(t) \]
   \end{eqgroup}}}
 \newcommand{\secondorder}{%
   \begin{eqgroup}[Second order: time and frequency]

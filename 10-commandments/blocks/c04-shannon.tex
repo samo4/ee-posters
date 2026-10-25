@@ -8,7 +8,7 @@
   \[ H=-\sum_i p_i\log_2 p_i \]
   \end{eqgroup}}%
 {%
-  \begin{tikzpicture}[x=48mm, y=80mm, line width=1.2pt, >={Latex[length=3mm]}]
+  \begin{tikzpicture}[x=48mm, y=64mm, line width=1.2pt, >={Latex[length=3mm]}]
     % Nyquist zones (x in units of f_s, y in units of f_s)
     \foreach \z/\l in {0/1,1/2,2/3,3/4} {
       \pgfmathsetmacro{\xa}{\z*0.5}
@@ -33,7 +33,7 @@
     \node[font=\small, muted, anchor=north] at (0.75,0.13) {flipped};
     \node[font=\small, muted, anchor=north] at (1.75,0.13) {flipped};
   \end{tikzpicture}\\[1mm]
-  {\small\color{muted}Every frequency ping-pongs between $0$ and $f_s/2$; even zones arrive mirrored. Used on purpose, it is bandpass sampling.}}
+  {\small\color{muted}Every frequency ping-pongs between $0$ and $f_s/2$; even zones arrive mirrored: bandpass sampling, if meant.}}
 \tcblower
 \trap{\textbf{Aliasing is forever.} What the sampler hath joined together, let no filter put asunder: filter \emph{before} you sample.}
 \end{commandment}

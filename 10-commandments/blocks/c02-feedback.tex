@@ -1,0 +1,40 @@
+\begin{commandment}[slot]{II}{Feedback}{Thou shalt close the loop, and keep thy margin.}{Op-amp circuits, PID, LDOs and SMPS loops, PLLs, oscillators, servo drives.}
+\body[0.47]{%
+  \begin{eqgroup}[Black: gain $A$, feedback $\beta$, loop gain $L=A\beta$]
+  \[ A_f=\frac{A}{1+L}\ \xrightarrow{\ L\,\gg\,1\ }\ \frac{1}{\beta} \]
+  \[ \frac{dA_f}{A_f}=\frac{1}{1+L}\,\frac{dA}{A} \]
+  \end{eqgroup}
+  \begin{eqgroup}[Stability: look at crossover, $|L(j\omega_c)|=1$]
+  \[ \mathrm{PM}=180^\circ+\angle L(j\omega_c) \]
+  \end{eqgroup}}%
+{%
+  % L(s) = 1.2256 / (s (1+s/1.5) (1+s/5)): crossover at 1, PM 45 deg; phase hits -180 at 2.74, GM 14.5 dB.
+  % Datasheet style: gain (left axis) and phase (right axis) share one box, with 0 dB level with -180 deg,
+  % so both margins are gaps to the same line. The tall box makes the slopes steep.
+  \begin{tikzpicture}
+  \pgfplotsset{loopplot/.style={posterplot, scale only axis, width=96mm, height=44mm, xmin=0.1, xmax=12,
+     samples=120, domain=0.1:12, restrict y to domain=-400:400}}
+  \begin{semilogxaxis}[loopplot, name=mag, axis x line=none, axis y line=left, ymin=-20, ymax=30,
+     ylabel={$|L|$}, every axis y label/.style={at={(axis description cs:0,1)}, anchor=south, text=accent},
+     ytick={0}, yticklabels={0\,dB}]
+    \addplot[accent, smooth] {20*log10(1.2256) - 20*log10(x) - 10*log10(1+(x/1.5)^2) - 10*log10(1+(x/5)^2)};
+    \draw[muted, line width=0.8pt] (axis cs:0.1,0) -- (axis cs:12,0);
+    \draw[muted, dashed, thin] (axis cs:1,-20) -- (axis cs:1,30);
+    \draw[muted, dashed, thin] (axis cs:2.739,-20) -- (axis cs:2.739,30);
+    \draw[{Latex[length=2.5mm]}-{Latex[length=2.5mm]}, trap, line width=1.4pt] (axis cs:2.739,-14.5) -- (axis cs:2.739,0);
+    \node[trap, font=\small, anchor=west] at (axis cs:2.9,-12.5) {GM};
+  \end{semilogxaxis}
+  \begin{semilogxaxis}[loopplot, at={(mag.south west)}, axis y line=right, axis x line=bottom, ymin=-240, ymax=-90,
+     xlabel={$\omega$}, ylabel={$\angle L$},
+     every axis y label/.style={at={(axis description cs:1,1)}, anchor=south, text=good!70!black},
+     every axis x label/.style={at={(axis description cs:1,0)}, anchor=west, xshift=2mm},
+     xtick={1,2.739}, xticklabels={$\omega_c$,$\omega_{180}$},
+     ytick={-90,-180}, yticklabels={$-90^\circ$,$-180^\circ$}]
+    \addplot[good, smooth] {-90 - atan(x/1.5) - atan(x/5)};
+    \draw[{Latex[length=2.5mm]}-{Latex[length=2.5mm]}, trap, line width=1.4pt] (axis cs:1,-180) -- (axis cs:1,-135);
+    \node[trap, font=\small, anchor=west] at (axis cs:1.06,-166) {PM};
+  \end{semilogxaxis}
+  \end{tikzpicture}}
+\tcblower
+\trap{\textbf{Amplifiers oscillate; oscillators do not.} At $L=-1$ the loop singeth unto itself: keep $45^\circ$ of margin.}
+\end{commandment}

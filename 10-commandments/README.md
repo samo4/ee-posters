@@ -2,8 +2,8 @@
 
 Ten ideas every electrical engineering student should leave university with, set out in King James English.
 It opens with the shared maths (Euler, transforms, linear algebra, vector calculus, probability).
-The ten commandments follow: circuit laws, phasors, convolution, sampling and Shannon, state-space, Maxwell,
-the power triangle, noise and measurement, semiconductors, and logic timing.
+The ten commandments follow: circuit laws, feedback, convolution, sampling and Shannon, state-space,
+noise and measurement, Maxwell, the power triangle, semiconductors, and logic timing.
 
 [![The A1 poster](https://github.com/samo4/ee-posters/releases/latest/download/preview.png)](https://github.com/samo4/ee-posters/releases/latest/download/ee-ten-commandments.pdf)
 
