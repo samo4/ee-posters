@@ -20,7 +20,13 @@
   \end{eqgroup}
   \begin{eqgroup}[Decibels: logs turn products into sums]
   \[ G_{\mathrm{dB}}=10\log_{10}\frac{P_2}{P_1}=20\log_{10}\frac{V_2}{V_1} \]
-  \end{eqgroup}}\hfill
+  \end{eqgroup}
+  % the slide has room the poster hasn't
+  \slidesonly{%
+  \begin{eqgroup}[Hilbert: signals are vectors, energy is length]
+  \[ \langle x,y\rangle=\int x(t)\,y^*(t)\,dt \qquad \|x\|^2=\langle x,x\rangle \]
+  \[ |\langle x,y\rangle|\le\|x\|\,\|y\| \quad\text{\small\color{muted}(why the matched filter wins)} \]
+  \end{eqgroup}}}\hfill
 \mathcol{%
   \begin{eqgroup}[Linear systems and their modes]
   \[ A\mathbf x=\mathbf b \qquad A\mathbf v=\lambda\mathbf v \]

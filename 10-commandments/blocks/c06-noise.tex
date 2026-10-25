@@ -1,11 +1,17 @@
 \begin{commandment}[slot]{VI}{Probability \& noise}{Thou shalt not trust (a single measurement).}{Uncertainty budgets, bit error rate, receiver sensitivity, Friis noise figure, Kalman filtering.}
 \body{%
-  \begin{eqgroup}[Measurement (Student's $t$)]
-  \[ \mu\in\bar x\pm t_{\alpha/2,\,n-1}\,\frac{s}{\sqrt n} \]
+  \begin{eqgroup}[Uncertainty (GUM): Type A from data, Type B from a spec $\pm a$]
+  % little distribution icons: Type A is (near) normal, Type B from a spec ±a is rectangular
+  \newcommand{\distr}[1]{\mathord{\tikz[baseline=0pt, x=0.42em, y=0.95em, line width=0.9pt]{%
+    \draw[muted, line width=0.5pt] (-1.6,0) -- (1.6,0); #1}}\,}%
+  \newcommand{\gaussicon}{\distr{\fill[accent!15] plot[domain=-1.5:1.5, samples=25, smooth] (\x,{exp(-2*\x*\x)}) -- cycle;
+    \draw[accent] plot[domain=-1.5:1.5, samples=25, smooth] (\x,{exp(-2*\x*\x)});}}%
+  \newcommand{\recticon}{\distr{\draw[accent, fill=accent!15] (-1.3,0) rectangle (1.3,0.4);}}%
+  \[ \gaussicon u_A=\frac{s}{\sqrt n} \qquad \mu\in\bar x\pm t_{\alpha/2,\,n-1}\,u_A \]
+  \[ \recticon u_B=\frac{a}{\sqrt3} \qquad u_c=\sqrt{u_A^2+u_B^2} \]
   \end{eqgroup}
   \begin{eqgroup}[Noise]
-  \[ P_n=kTB \quad (-174\ \text{dBm/Hz}) \]
-  \[ S_{yy}(f)=|H(f)|^2\,S_{xx}(f) \]
+  \[ P_n=kTB\ \ \text{\small\color{muted}($-174$ dBm/Hz)} \qquad S_{yy}=|H|^2\,S_{xx} \]
   \end{eqgroup}}%
 {%
   \begin{tikzpicture}
@@ -23,5 +29,5 @@
   \end{axis}
   \end{tikzpicture}}
 \tcblower
-\trap{\textbf{Averaging cures only random error.} The systematic error ye have always with you.}
+\trap{\textbf{Averaging cures random errors.} The systematic error ye have always with you.}
 \end{commandment}

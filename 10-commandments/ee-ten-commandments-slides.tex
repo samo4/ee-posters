@@ -13,42 +13,33 @@
 
 % ---------------- frame: header, body, footer ----------------
 \newlength{\slidebodyh}
-\setlength{\slidebodyh}{\dimexpr\textheight-\topskip-42mm\relax}
+\setlength{\slidebodyh}{\dimexpr\textheight-\topskip-46mm\relax}
 
 \newcommand{\slidehead}{%
   {\fontsize{26}{30}\selectfont\scshape\color{muted}The Ten Commandments of Electrical Engineering\hfill
    \upshape\thepage\,/\,\pageref*{LastPage}}\par\vspace{2mm}
   {\color{accent}\rule{\linewidth}{1.6pt}}\par}
 
-% the footer cycles through these notes, one per page
-\ExplSyntaxOn
-\seq_new:N \g_slides_notes_seq
-\NewDocumentCommand{\addslidenote}{m}{\seq_gput_right:Nn \g_slides_notes_seq {#1}}
-\NewDocumentCommand{\slidenote}{}{%
-  \seq_item:Nn \g_slides_notes_seq {\int_mod:nn {\value{page}-1} {\seq_count:N \g_slides_notes_seq} + 1}}
-\ExplSyntaxOff
-\addslidenote{\notewhoso}
-\addslidenote{\noteharmed}
+% footer: #1 the slide's note (a nugget the poster gutters have no room for; may be empty)
+\newcommand{\slidefoot}[1]{%
+  {\color{rule}\rule{\linewidth}{0.8pt}}\par\vspace{3mm}
+  {\fontsize{28}{32}\selectfont\itshape\color{ink}#1}\hfill
+  {\fontsize{15}{18}\selectfont\href{\repourl}{\color{muted}\repourl}}\par}
 
-\newcommand{\slidefoot}{%
-  {\color{rule}\rule{\linewidth}{0.8pt}}\par\vspace{2mm}
-  {\fontsize{22}{26}\selectfont\itshape\color{muted}\slidenote\hfill
-   \upshape\href{\repourl}{\color{accent}\repourl}}\par}
-
-% [#1] header, #2 body, centred in the space between header and footer
-\newcommand{\slidepage}[2][\slidehead]{%
+% [#1] header, #2 footer note, #3 body, centred in the space between header and footer
+\newcommand{\slidepage}[3][\slidehead]{%
   \clearpage\noindent
   \begin{minipage}[t][\dimexpr\textheight-\topskip-1mm\relax][s]{\linewidth}\vspace{0pt}
     #1\vfill
-    \parbox[c][\slidebodyh][c]{\linewidth}{\centering #2}\vfill
-    \slidefoot
+    \parbox[c][\slidebodyh][c]{\linewidth}{\centering #3}\vfill
+    \slidefoot{#2}
   \end{minipage}}
 
 % ---------------- scaled blocks ----------------
 % Every commandment is drawn at the same scale and stretched to the same box, so the type
 % matches from slide to slide and the spare room goes inside the box, not around it.
 \newcommand{\cmdscale}{1.8}
-\newcommand{\chapterscale}{1.25}
+\newcommand{\chapterscale}{1.15}
 \newcommand{\pillroom}{6mm}% the "unlocks" pill hangs below the box
 \pgfmathsetlengthmacro{\cmdw}{\textwidth/\cmdscale}
 \pgfmathsetlengthmacro{\cmdh}{\slidebodyh/\cmdscale-\pillroom}
@@ -56,27 +47,28 @@
 \pgfmathsetlengthmacro{\chapterh}{\slidebodyh/\chapterscale}
 
 \newcommand{\scaled}[3]{\scalebox{#1}{\begin{minipage}{#2}#3\end{minipage}}}
-\newcommand{\cmdslide}[1]{\slidepage{\scaled{\cmdscale}{\cmdw}{%
+% #1 block, #2 footer note
+\newcommand{\cmdslide}[2]{\slidepage{#2}{\scaled{\cmdscale}{\cmdw}{%
   \block[height=\cmdh, valign upper=center]{#1}\par\vspace{\pillroom}}}}
 
 \begin{document}
 % ===================================================================== title
-\slidepage[]{\scaled{1.25}{430mm}{%
+\slidepage[]{\noteharmed}{\scaled{1.25}{430mm}{%
   \input{blocks/title}\par
   \vspace{4mm}
   {\color{accent}\rule{\linewidth}{2.5pt}}\par
   \vspace{6mm}
   {\raggedleft\input{blocks/motto}\par}}}
 % ===================================================================== chapter i, I--X
-\slidepage{\scaled{\chapterscale}{\chapterw}{\block[height=\chapterh, valign=center]{chapter-i}}}
-\cmdslide{c01-circuit-laws}
-\cmdslide{c02-feedback}
-\cmdslide{c03-convolution}
-\cmdslide{c04-shannon}
-\cmdslide{c05-state-space}
-\cmdslide{c06-noise}
-\cmdslide{c07-maxwell}
-\cmdslide{c08-power}
-\cmdslide{c09-semiconductors}
-\cmdslide{c10-logic}
+\slidepage{\notewhoso}{\scaled{\chapterscale}{\chapterw}{\block[height=\chapterh, valign=center]{chapter-i}}}
+\cmdslide{c01-circuit-laws}{Current must return home. Deny it a path, and it shall scream until it findeth one.}
+\cmdslide{c02-feedback}{Amplifiers oscillate; oscillators do not.}
+\cmdslide{c03-convolution}{A sine goes in, a sine comes out: only its size and phase may change.}
+\cmdslide{c04-shannon}{Thy probe is part of the circuit.}
+\cmdslide{c05-state-space}{Kalman: trust thy model and thy sensor, each as much as it deserveth.}
+\cmdslide{c06-noise}{Typical is marketing; min and max are engineering.}
+\cmdslide{c07-maxwell}{The electrician thinks energy flows through the wire; the engineer knows it flows beside it.}
+\cmdslide{c08-power}{A CAT hath IX lives; thou hast but one.}
+\cmdslide{c09-semiconductors}{Read the datasheet, then the errata, then wait for silicon rev.~B.}
+\cmdslide{c10-logic}{A transistor is not a switch. Two transistors are.}
 \end{document}
