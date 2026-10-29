@@ -36,6 +36,10 @@ jobs:
         working-directory: linear-systems
         run: just
 
+      - name: Build the loudspeaker poster
+        working-directory: loudspeakers
+        run: just
+
       - name: Build the screw drives slide
         working-directory: screw-drives
         run: just
@@ -51,4 +55,5 @@ jobs:
             10-commandments/preview.png
             linear-systems/lnas-poster.pdf
             screw-drives/screw-drives.pdf
+            loudspeakers/loudspeaker-enclosures.pdf
           fail_on_unmatched_files: true
