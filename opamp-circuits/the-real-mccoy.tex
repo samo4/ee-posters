@@ -1,5 +1,5 @@
 % ==========================================================================
-%  The real McCoy  --  the ideal op-amp and twelve ways a real one falls short of it,
+%  The real McCoy  --  the ideal op-amp, eleven ways a real one falls short of it, and one fix,
 %  on one 16:9 landscape poster. The circuits are on opamp-circuits.tex; both \input preamble.tex.
 %  Compile: just
 % ==========================================================================
@@ -47,7 +47,7 @@
 {\fontsize{72}{76}\selectfont\bfseries The real McCoy}\hfill
 {\fontsize{23}{28}\selectfont\color{muted}\itshape
  The inputs never quite agree, and a little current always leaks in.\quad
- \upshape\bfseries\color{trap} Read datasheet before you buy.}\par
+ \upshape\bfseries\color{trap} Read the datasheet before you buy.}\par
 \vspace{3mm}
 {\color{accent}\rule{\linewidth}{2.5pt}}\par
 \vspace{6mm}
@@ -224,7 +224,9 @@
   \end{circuitikz}}{%
   \begin{tikzpicture}
   \begin{axis}[lin, width=32mm, xmin=-40, xmax=125, ymin=-160, ymax=160, domain=-40:125,
-      xlabel={$T$}, ylabel={$V_{os}$}, xtick={25}, xticklabels={25\,\textdegree C},
+      xlabel={$T$}, ylabel={$V_{os}$}, xtick=\empty,
+      extra description/.code={\node[tag, anchor=north] at (axis cs:25,-160) {25\,\textdegree C};
+        \draw[muted, dashed, thin] (axis cs:25,-160) -- (axis cs:25,160);},
       ytick={-100,100}, yticklabels={$-100$\,\textmu V,$100$\,\textmu V},
       every x tick label/.style={below right}]
     \addplot[vout] {40+0.5*(x-25)};
@@ -305,7 +307,7 @@
 \trap{\textbf{Low-$e_n$ bipolar parts have high $i_n$:} above about 10\,k$\Omega$ of source, a FET input is quieter.}
 \end{card}
 % ---------------------------------------------------------------- chopper
-\begin{card}[height=169mm, valign upper=center]{Chopper}{Move the offset to where a filter can remove it.}%
+\begin{card}[height=169mm, valign upper=center, colframe=good, colbacktitle=good]{Chopper}{Move the offset to where a filter can remove it.}%
   {Thermocouples, strain gauges, current shunts, weigh scales.}
 \figs{%
   % no standard symbol exists; datasheets draw the block diagram, which is the equation below:
@@ -342,7 +344,7 @@
     \addplot[vout] {12};
     \addplot[vbad, domain=6e4:1.6e5] {12+250*exp(-(ln(x/1e5)/0.08)^2)};
     \node[tag, text=muted, anchor=west] at (axis cs:1,150) {$1/f$};
-    \node[tag, text=accent, anchor=north west] at (axis cs:0.15,11) {chopped: flat};
+    \node[tag, text=accent, anchor=north west] at (axis cs:0.15,8) {chopped: flat};
     \node[tag, text=trap, anchor=east] at (axis cs:7e4,200) {ripple};
   \end{loglogaxis}
   \end{tikzpicture}}
@@ -390,7 +392,7 @@
     \draw[muted, dashed, line width=0.8pt] (axis cs:-0.6,5) -- (axis cs:5.4,5) (axis cs:-0.6,0) -- (axis cs:5.4,0);
     \addplot[vout] {min(max(x,0.05),4.95)};
     \addplot[vbad] {min(max(x,1.2),3.8)};
-    \node[tag, text=accent, anchor=south east] at (axis cs:4.3,4.95) {rail-to-rail};
+    \node[tag, text=accent, anchor=south east] at (axis cs:2.9,3.6) {rail-to-rail};
     \node[tag, text=trap, anchor=north west] at (axis cs:4,3.75) {classic: 1.2\,V short};
   \end{axis}
   \end{tikzpicture}}
@@ -412,7 +414,7 @@
     \addplot[vout] {min(max(x,0.05),4.95)};
     \addplot[vbad, domain=3.5:5.4] {0.15};
     \draw[vbad, dashed] (axis cs:3.5,3.5) -- (axis cs:3.5,0.15);
-    \node[tag, text=accent, anchor=south east] at (axis cs:4.3,4.95) {rail-to-rail input};
+    \node[tag, text=accent, anchor=south east] at (axis cs:2.9,3.6) {rail-to-rail input};
     \node[tag, text=trap, anchor=south west] at (axis cs:3.6,0.3) {phase reversal};
   \end{axis}
   \end{tikzpicture}}
@@ -446,7 +448,7 @@
     \addplot[vbad] {x>5 ? exp(8*(x-5))-1 : (x<0 ? 1-exp(-8*x) : 0)};
     \addplot[vout] {x>5.5 ? 0.5*(x-5.5) : (x<-0.5 ? 0.5*(x+0.5) : 0)};
     \node[tag, text=trap, anchor=east] at (axis cs:4.9,2.4) {bare};
-    \node[tag, text=accent, anchor=south east] at (axis cs:7,1) {with $R_s$};
+    \node[tag, text=accent, anchor=north east] at (axis cs:7,-0.3) {with $R_s$};
   \end{axis}
   \end{tikzpicture}}
 \begin{eqgroup}[Limit the current the ESD diodes must carry]
@@ -476,7 +478,7 @@
       ylabel={$|Z_\text{rail}|$}, every axis y label/.style={at={(axis description cs:0,1)}, anchor=south}]
     \addplot[vbad] {2*pi*x*2e-8};
     \addplot[vout] {sqrt(0.02^2+(2*pi*x*1e-9-1/(2*pi*x*1e-7))^2)};
-    \node[tag, text=trap, anchor=north west] at (axis cs:3e4,0.02) {20\,mm trace};
+    \node[tag, text=trap, anchor=north west, align=left] at (axis cs:1.2e8,0.25) {20\,mm\\ trace};
     \node[tag, text=accent, anchor=south west] at (axis cs:3e4,60) {100\,nF};
   \end{loglogaxis}
   \end{tikzpicture}}

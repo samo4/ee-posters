@@ -26,7 +26,7 @@
   \end{scope}
   \node[rotate=-90, anchor=center, text=muted, font=\fontsize{14}{17}\selectfont\itshape]
     at ($(current page.east)+(-6.3mm,0mm)$)
-    {The ideal op-amp, and the dozen ways a real one falls short of it:
+    {The ideal op-amp, eleven ways a real one falls short of it, and one fix:
      \upshape\bfseries\color{accent}The real McCoy, on the next slide.\quad
      \mdseries\href{\repourl}{\color{accent}\repourl}};
 \end{tikzpicture}%
@@ -230,8 +230,8 @@
     \node[tag, text=trap, anchor=south] at (axis cs:1,10.5) {no $C_f$};
   \end{semilogxaxis}
   \end{tikzpicture}}
-\begin{eqgroup}[$v_\text{out}=i_\text{ph}R_f$; the photodiode's $C_\text{in}$ sits in the loop]
-\[ f_{-3\,\text{dB}}\approx\sqrt{\frac{\text{GBW}}{2\pi R_fC_\text{in}}}\qquad C_f\approx\sqrt{\frac{C_\text{in}}{2\pi R_f\,\text{GBW}}} \]
+\begin{eqgroup}[$v_\text{out}=i_\text{ph}R_f$; $C_f$ for at least $45^\circ$ of margin]
+\[ f_{-3\,\text{dB}}\approx\sqrt{\frac{\text{GBW}}{2\pi R_fC_\text{in}}}\qquad C_f\ \ge\ \sqrt{\frac{C_\text{in}}{2\pi R_f\,\text{GBW}}} \]
 \end{eqgroup}
 \tcblower
 \trap{\textbf{Without $C_f$ the diode's capacitance adds a pole in the loop:} it rings, or it oscillates.}
@@ -255,7 +255,7 @@
       xtick={1e-3,1e-1,10}, xticklabels={1\,mV,100\,mV,10\,V}, ytick={0.4,0.6}, yticklabels={0.4\,V,0.6\,V}]
     \addplot[vbad] {0.0279*ln(x*3.125e8)};
     \addplot[vout] {0.0257*ln(x*1e10)};
-    \node[tag, text=accent, anchor=south east, rotate=17] at (axis cs:0.1,0.53) {60\,mV/decade};
+    \node[tag, text=accent, anchor=south east, rotate=17] at (axis cs:0.08,0.57) {60\,mV/decade};
     \node[tag, text=trap, anchor=north west] at (axis cs:0.02,0.42) {$+25$\,K};
   \end{semilogxaxis}
   \end{tikzpicture}}
@@ -333,14 +333,14 @@
   \begin{tikzpicture}
   \begin{axis}[xfer, width=38mm, xmin=-1.6, xmax=1.6, ymin=-1.3, ymax=1.3,
       xtick=\empty, ytick=\empty]
-    \node[tag, anchor=north west] at (axis cs:0.5,0) {$V_{T+}$};
-    \node[tag, anchor=south east] at (axis cs:-0.5,0) {$V_{T-}$};
+    \node[tag, anchor=south west] at (axis cs:0.55,1.05) {$V_{T+}$};
+    \node[tag, anchor=north east] at (axis cs:-0.55,-1.05) {$V_{T-}$};
     \addplot[vbad, dashed] coordinates {(0,-1) (0,1)};
     \addplot[vout, -{Latex[length=3mm]}] coordinates {(-1.5,1) (0.5,1) (0.5,0)};
     \addplot[vout] coordinates {(0.5,0) (0.5,-1) (1.5,-1)};
     \addplot[vout, -{Latex[length=3mm]}] coordinates {(1.5,-1) (-0.5,-1) (-0.5,0)};
     \addplot[vout] coordinates {(-0.5,0) (-0.5,1)};
-    \node[tag, text=trap, anchor=south, fill=white] at (axis cs:0,1.05) {no hysteresis};
+    \node[tag, text=trap, anchor=north west] at (axis cs:0.05,-1.08) {no hysteresis};
   \end{axis}
   \end{tikzpicture}}
 \begin{eqgroup}[Schmitt trigger: the threshold moves with the output]
