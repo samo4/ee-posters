@@ -11,7 +11,7 @@
   "runOnSave.commands": [
     {
       // a top-level poster file: rebuild just that one
-      "match": "[\\\\/](ee-ten-commandments[^\\\\/]*|lnas-poster|screw-drives)\\.tex$",
+      "match": "[\\\\/](ee-ten-commandments[^\\\\/]*|lnas-poster|screw-drives|opamp-circuits|the-real-mccoy)\\.tex$",
       "command": "cd \"${fileDirname}\" && just poster \"${fileBasenameNoExtension}\"",
       "runIn": "terminal",
       "terminalReveal": "onError"

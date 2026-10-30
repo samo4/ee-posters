@@ -40,6 +40,10 @@ jobs:
         working-directory: screw-drives
         run: just
 
+      - name: Build the op-amp slides
+        working-directory: opamp-circuits
+        run: just
+
       - name: Publish release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v3
@@ -51,4 +55,6 @@ jobs:
             10-commandments/preview.png
             linear-systems/lnas-poster.pdf
             screw-drives/screw-drives.pdf
+            opamp-circuits/opamp-circuits.pdf
+            opamp-circuits/the-real-mccoy.pdf
           fail_on_unmatched_files: true

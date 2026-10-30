@@ -1,0 +1,125 @@
+% ==========================================================================
+%  Shared preamble for the op-amp slides (packages, palette, boxes, plot styles).
+%  The top files set \documentclass and geometry, then \input this.
+% ==========================================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[sc]{mathpazo}          % Palatino text + math
+\linespread{1.05}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\usepgfplotslibrary{fillbetween}
+\usepackage[siunitx,american,europeanresistors]{circuitikz}
+\usepackage[most]{tcolorbox}
+\usepackage[hidelinks]{hyperref}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+% ---------------- palette ----------------
+\definecolor{paper}{HTML}{F8F5EE}
+\definecolor{ink}{HTML}{1E2430}
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{accentlt}{HTML}{6E93B5}
+\definecolor{trap}{HTML}{9A3B2E}
+\definecolor{muted}{HTML}{6B7280}
+\definecolor{rule}{HTML}{B9C6D3}
+\definecolor{good}{HTML}{3C7A4A}
+\definecolor{steel}{HTML}{D9DEE4}
+\pagecolor{paper}
+\color{ink}
+
+\newcommand{\repourl}{https://github.com/samo4/ee-posters}
+
+% ---------------- sizes ----------------
+\renewcommand{\normalsize}{\fontsize{17}{21}\selectfont}
+\renewcommand{\small}{\fontsize{14}{17}\selectfont}
+\renewcommand{\footnotesize}{\fontsize{12.5}{15}\selectfont}
+\newcommand{\eqsize}{\fontsize{19}{23}\selectfont}
+\normalsize
+
+\newcommand{\setdisplay}{%
+  \setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}%
+  \setlength{\abovedisplayshortskip}{3pt}\setlength{\belowdisplayshortskip}{3pt}}
+
+% ---------------- equation group: a thin box holding equations that belong together
+\newtcolorbox{eqgroup}[1][]{%
+  enhanced, colback=white, colframe=rule, boxrule=0.7pt, arc=2.5mm,
+  left=6pt, right=6pt, top=5pt, bottom=2pt, before skip=8pt, after skip=2pt,
+  fontupper=\eqsize, before upper={\setdisplay},
+  title={#1}, fonttitle=\footnotesize\scshape, coltitle=muted,
+  attach boxed title to top left={xshift=4mm, yshift=-\tcboxedtitleheight/2},
+  boxed title style={colback=white, colframe=white, boxrule=0pt, arc=0pt,
+                     left=3pt, right=3pt, top=0pt, bottom=0pt}}
+% short prose inside a box
+\newcommand{\note}[1]{{\small\color{muted}#1\par}}
+
+\newcommand{\trap}[1]{{\centering\fontsize{14.5}{17.5}\selectfont\itshape\color{trap}#1\par}}
+
+% ---------------- card: one circuit, or one way a real op-amp falls short ----------------
+% [#1] extra options, #2 name, #3 the maxim, #4 where you meet it (sits on the bottom border)
+\newtcolorbox{card}[4][]{%
+  enhanced, colback=white, colframe=accent, boxrule=1.4pt, arc=4mm,
+  left=8pt, right=8pt, top=3pt, bottom=12pt,
+  title={%
+    \begin{tikzpicture}[baseline=(n.base)]
+      \node[rounded corners=5mm, fill=white, text=accent, minimum height=11mm, inner xsep=3mm, inner ysep=0pt,
+            font=\fontsize{23}{23}\selectfont\bfseries] (n) {#2};
+    \end{tikzpicture}\par\vspace{1.5mm}
+    {\fontsize{20}{24}\selectfont\bfseries\itshape #3}},
+  colbacktitle=accent, coltitle=white,
+  toptitle=4pt, bottomtitle=4pt, lefttitle=8pt, righttitle=8pt,
+  segmentation hidden, space to upper, middle=1pt,
+  overlay={\node[fill=white, draw=accent, line width=1.4pt, rounded corners=2.5mm, text width=150mm, align=center,
+                 inner xsep=9pt, inner ysep=5pt, font=\small, text=ink, anchor=center]
+                 at (frame.south) {#4};},
+  #1}
+
+% the schematic (left) and what it does to a signal (right)
+\newcommand{\figs}[2]{%
+  \begin{minipage}[c]{0.61\linewidth}\centering #1\end{minipage}\hfill
+  \begin{minipage}[c]{0.38\linewidth}\centering #2\end{minipage}\par}
+
+% ---------------- schematics ----------------
+\ctikzset{bipoles/length=1.7cm, amplifiers/scale=1.45}
+\tikzset{sch/.style={scale=1.12, line width=1.3pt, font=\normalsize},
+         fix/.style={color=muted, dashed}}   % the part that fixes the trap
+
+% ---------------- signals ----------------
+\tikzset{vin/.style={muted, dashed, line width=1.4pt},
+         vout/.style={accent, line width=1.8pt},
+         vbad/.style={trap, line width=1.4pt},
+         tag/.style={font=\small, inner sep=1pt}}
+% over time
+\pgfplotsset{wave/.style={
+  scale only axis, width=46mm, height=54mm, axis lines=middle, axis line style={-{Latex[length=3mm]}, thick},
+  ticks=none, label style={font=\normalsize}, xlabel={$t$},
+  every axis x label/.style={at={(current axis.right of origin)}, anchor=west, xshift=1mm},
+  samples=300, domain=0:720, xmin=0, xmax=760, clip=false}}
+% output over input
+\pgfplotsset{xfer/.style={
+  scale only axis, width=44mm, height=54mm, axis lines=middle, clip=false, axis line style={-{Latex[length=3mm]}, thick},
+  tick style={draw=none}, ticklabel style={font=\small}, label style={font=\normalsize},
+  xlabel={$v_\text{in}$}, ylabel={$v_\text{out}$},
+  every axis x label/.style={at={(current axis.right of origin)}, anchor=west, xshift=1mm},
+  every axis y label/.style={at={(current axis.above origin)}, anchor=south},
+  every axis plot/.append style={line width=1.8pt}}}
+% level in dB over frequency
+\pgfplotsset{bode/.style={
+  scale only axis, width=50mm, height=54mm, axis x line=bottom, clip=false, axis y line=left,
+  axis line style={-{Latex[length=3mm]}, thick}, tick style={draw=none}, ticklabel style={font=\small},
+  label style={font=\normalsize}, xlabel={$f$},
+  every axis x label/.style={at={(axis description cs:1,0)}, anchor=west, xshift=1mm},
+  samples=200, every axis plot/.append style={line width=1.8pt}}}
+% second-order low-pass magnitude, x = f/f_0
+\pgfmathdeclarefunction{lp}{2}{\pgfmathparse{1/sqrt((1-#1^2)^2+(#1/#2)^2)}}
+% triangle and square waves of x in degrees, amplitude 1, both rising through 0 at x = 0
+\pgfmathdeclarefunction{tri}{1}{\pgfmathparse{asin(sin(#1))/90}}
+\pgfmathdeclarefunction{sqr}{1}{\pgfmathparse{sin(#1)>=0 ? 1 : -1}}
+
+% a column that fills the page height; \vfill between blocks spreads them out
+\newenvironment{pagecol}[1]{\begin{minipage}[t][\dimexpr\textheight-\topskip\relax][s]{#1}\vspace{0pt}}{\end{minipage}}
